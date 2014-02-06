@@ -8,6 +8,9 @@ namespace Sql\Statement;
  */
 class Select implements \Sql\Statement
 {
+    /**#@+
+     * SQL constants
+     */
     const SQL_SELECT        = 'SELECT';
     const SQL_FROM          = 'FROM';
     const SQL_JOIN_INNER    = 'INNER';

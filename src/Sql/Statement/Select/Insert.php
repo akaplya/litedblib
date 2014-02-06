@@ -12,13 +12,12 @@ class Insert implements \Sql\Statement
      * SQL constants
      */
     const SQL_INSERT = 'INSERT';
-    const SQL_VALUES = 'VALUES';
 
     protected $target;
 
     protected $columns;
 
-    protected $values;
+    protected $source;
 
     /**
      * Set target table
@@ -47,12 +46,12 @@ class Insert implements \Sql\Statement
     /**
      * Set values to insert
      *
-     * @param $values
+     * @param \Sql\Statement $source
      * @return $this
      */
-    public function values($values)
+    public function source(\Sql\Statement $source)
     {
-        $this->values = $values;
+        $this->source = $source;
         return $this;
     }
 
@@ -73,9 +72,9 @@ class Insert implements \Sql\Statement
      * @param $sql
      * @return string
      */
-    public function renderValues($sql)
+    public function renderSource($sql)
     {
-        return $sql .= ' ' .self::SQL_VALUES . '(' . implode(',', $this->values) . ')';
+        return $sql .= ' ' .self::SQL_VALUES . '(' . (string)$this->source . ')';
     }
 
     /**
