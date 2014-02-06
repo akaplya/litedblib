@@ -102,6 +102,7 @@ class Upsert implements \Sql\Statement
         }
         return $sql .= ' ' . self::SQL_ON_DUPLICATE_KEY_UPDATE . '(' . implode(',', $matched) . ')';
     }
+
     /**
      * Render sql string
      *
@@ -109,8 +110,9 @@ class Upsert implements \Sql\Statement
      */
     public function __toString()
     {
-        return $this->$this->renderValues(
+        return $this->renderMatched(
+            $this->renderValues(
             $this->renderColumns(self::SQL_INSERT . ' ' . $this->target)
-        );
+        ));
     }
 }
