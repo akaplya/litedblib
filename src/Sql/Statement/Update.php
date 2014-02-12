@@ -3,10 +3,10 @@
 namespace Sql\Statement;
 
 /**
- * Class Insert
+ * Class Update
  * @package Sql\Statement
  */
-class Insert implements \Sql\Statement
+class Update implements \Sql\Statement
 {
     /**
      * @var string
@@ -16,12 +16,12 @@ class Insert implements \Sql\Statement
     /**
      * @var array
      */
-    protected $columns;
+    protected $values;
 
     /**
      * @var array
      */
-    protected $values;
+    protected $where;
 
     /**
      * Set target table
@@ -36,38 +36,15 @@ class Insert implements \Sql\Statement
     }
 
     /**
-     * Set columns mapping for insert
-     *
-     * @param array $columns
-     * @return $this
-     */
-    public function columns(array $columns)
-    {
-        $this->columns = $columns;
-        return $this;
-    }
-
-    /**
      * Set values to insert
      *
      * @param $values
      * @return $this
      */
-    public function values($values)
+    public function set(array $values)
     {
         $this->values = $values;
         return $this;
-    }
-
-    /**
-     * Render insert columns
-     *
-     * @param $sql
-     * @return string
-     */
-    public function renderColumns($sql)
-    {
-        return $sql .= ' (' . implode(',', $this->columns) . ')';
     }
 
     /**
@@ -76,9 +53,24 @@ class Insert implements \Sql\Statement
      * @param $sql
      * @return string
      */
-    public function renderValues($sql)
+    protected function renderSet($sql)
     {
-        return $sql .= ' ' . \Sql\Constant::SQL_VALUES . '(' . implode(',', $this->values) . ')';
+        $data = array();
+        foreach ($this->values as $column => $value) {
+            $data = $column . " = " . $value;
+        }
+        return $sql .= ' ' . \Sql\Constant::SQL_SET . " " . implode(",\n", $data);
+    }
+
+    /**
+     * Render matched
+     *
+     * @param $sql
+     * @return string
+     */
+    protected function renderWhere($sql)
+    {
+
     }
 
     /**
@@ -88,8 +80,8 @@ class Insert implements \Sql\Statement
      */
     public function __toString()
     {
-        return $this->renderValues(
-            $this->renderColumns(\Sql\Constant::SQL_INSERT . ' ' . $this->target)
-        );
+        return $this->renderWhere(
+                $this->renderSet(\Sql\Constant::SQL_INSERT . ' ' . $this->target)
+            );
     }
 }

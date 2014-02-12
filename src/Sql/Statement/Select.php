@@ -8,28 +8,39 @@ namespace Sql\Statement;
  */
 class Select implements \Sql\Statement
 {
-    /**#@+
-     * SQL constants
+    /**
+     * @var array
      */
-    const SQL_SELECT        = 'SELECT';
-    const SQL_FROM          = 'FROM';
-    const SQL_JOIN_INNER    = 'INNER';
-    const SQL_JOIN_LEFT     = 'LEFT';
-    const SQL_JOIN_RIGHT    = 'RIGHT';
-    const SQL_JOIN_CROSS    = 'CROSS';
-
     protected $from;
 
+    /**
+     * @var array
+     */
     protected $join;
 
+    /**
+     * @var array
+     */
     protected $columns;
 
+    /**
+     * @var array
+     */
     protected $where;
 
+    /**
+     * @var array
+     */
     protected $group;
 
+    /**
+     * @var array
+     */
     protected $having;
 
+    /**
+     * @var array
+     */
     protected $order;
 
     /**
@@ -91,11 +102,11 @@ class Select implements \Sql\Statement
      * Add join condition
      *
      * @param $table
-     * @param $condition
+     * @param \Sql\Clause $condition
      * @param string $type
      * @return $this
      */
-    public function join($table, $condition, $type = self::SQL_JOIN_INNER)
+    public function join($table, \Sql\Clause $condition, $type = \Sql\Constant::SQL_JOIN_INNER)
     {
         if (is_array($table)) {
             $alias  = key($table);
@@ -105,7 +116,7 @@ class Select implements \Sql\Statement
         }
         $this->join[$alias] = array(
             'table'     => $table,
-            'condition' => new \Sql\Clause($condition),
+            'condition' => $condition,
             'type'      => $type
         );
         return $this;
@@ -136,9 +147,9 @@ class Select implements \Sql\Statement
         $renderColumns = array();
         foreach ($this->columns as $alias => $column) {
             $renderColumns[] = $column
-                . (($column == $alias) ? '' : ' AS ' . $alias);
+                . (($column == $alias) ? "" : " " . \Sql\Constant::SQL_AS . " " . $alias);
         }
-        return $sql .= ' ' . implode(',', $renderColumns);
+        return $sql .= "\n\t" . implode(",", $renderColumns);
     }
 
     /**
@@ -149,7 +160,40 @@ class Select implements \Sql\Statement
      */
     protected function renderFrom($sql)
     {
-        return $sql .= ' ' . self::SQL_FROM . ' ' . end($this->from) . ' AS ' . key($this->from);
+        return $sql .= "\n" . \Sql\Constant::SQL_FROM . " " . end($this->from)
+            . " " . \Sql\Constant::SQL_AS . " " . key($this->from);
+    }
+
+    /**
+     * Render joins
+     *
+     * @param $sql
+     * @return mixed
+     */
+    protected function renderJoin($sql)
+    {
+
+        foreach ($this->join as $alias => $join) {
+            if (is_array($join['condition'])) {
+                $join['condition'] = implode(" " . \Sql\Constant::SQL_AND . " ", $join['condition']);
+            }
+            $sql .= "\n" . $join['type'] . " " . $join['table'] . " " . \Sql\Constant::SQL_AS . " " . $alias . " "
+                . \Sql\Constant::SQL_ON . " " . $join['condition'];
+        }
+        return $sql;
+    }
+
+    /**
+     * Render where
+     *
+     * @param $sql
+     * @return mixed
+     */
+    public function renderWhere($sql)
+    {
+        $where = new \Sql\Clause\ClauseAnd($this->where);
+        $sql .= "\n" . \Sql\Constant::SQL_WHERE . " " . $where;
+        return $sql;
     }
 
     /**
@@ -159,8 +203,10 @@ class Select implements \Sql\Statement
      */
     public function __toString()
     {
-        return $this->renderFrom(
-            $this->renderColumns(self::SQL_SELECT)
-        );
+        return $this->renderWhere(
+            $this->renderJoin(
+            $this->renderFrom(
+            $this->renderColumns(\Sql\Constant::SQL_SELECT)
+        )));
     }
 }

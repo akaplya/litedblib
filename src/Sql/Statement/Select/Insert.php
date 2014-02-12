@@ -1,6 +1,6 @@
 <?php
 
-namespace Sql\Statement;
+namespace Sql\Statement\Select;
 
 /**
  * Class Insert
@@ -8,15 +8,19 @@ namespace Sql\Statement;
  */
 class Insert implements \Sql\Statement
 {
-    /**#@+
-     * SQL constants
+    /**
+     * @var string
      */
-    const SQL_INSERT = 'INSERT';
-
     protected $target;
 
+    /**
+     * @var array
+     */
     protected $columns;
 
+    /**
+     * @var \Sql\Statement\Select
+     */
     protected $source;
 
     /**
@@ -74,7 +78,7 @@ class Insert implements \Sql\Statement
      */
     public function renderSource($sql)
     {
-        return $sql .= ' ' .self::SQL_VALUES . '(' . (string)$this->source . ')';
+        return $sql .= ' ' . \Sql\Constant::SQL_VALUES . '(' . (string)$this->source . ')';
     }
 
     /**
@@ -85,7 +89,18 @@ class Insert implements \Sql\Statement
     public function __toString()
     {
         return $this->renderValues(
-            $this->renderColumns(self::SQL_INSERT . ' ' . $this->target)
+            $this->renderColumns(\Sql\Constant::SQL_INSERT . ' ' . $this->target)
         );
+    }
+
+    /**
+     * Render insert values
+     *
+     * @param $sql
+     * @return string
+     */
+    public function renderValues($sql)
+    {
+//        return $sql .= ' ' . \Sql\Constant::SQL_VALUES . '(' . implode(',', $this->source) . ')';
     }
 }

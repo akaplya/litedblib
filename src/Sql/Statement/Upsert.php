@@ -8,14 +8,6 @@ namespace Sql\Statement;
  */
 class Upsert implements \Sql\Statement
 {
-    /**#@+
-     * SQL constants
-     */
-    const SQL_INSERT = 'INSERT';
-    const SQL_VALUES = 'VALUES';
-    const SQL_VALUE  = 'VALUE';
-    const SQL_ON_DUPLICATE_KEY_UPDATE = 'ON DUPLICATE KEY UPDATE';
-
     protected $target;
 
     protected $columns;
@@ -60,6 +52,10 @@ class Upsert implements \Sql\Statement
         return $this;
     }
 
+    /**
+     * @param $columns
+     * @return $this
+     */
     public function matched($columns)
     {
         $this->matched = array_merge($this->matched, $columns);
@@ -85,7 +81,7 @@ class Upsert implements \Sql\Statement
      */
     public function renderValues($sql)
     {
-        return $sql .= ' ' .self::SQL_VALUES . '(' . implode(',', $this->values) . ')';
+        return $sql .= ' ' . \Sql\Constant::SQL_VALUES . '(' . implode(',', $this->values) . ')';
     }
 
     /**
@@ -98,9 +94,9 @@ class Upsert implements \Sql\Statement
     {
         $matched = array();
         foreach($matched as $column => $value) {
-            $matched[] = $column . ' = ' . self::SQL_VALUE . '(' . $value . ')';
+            $matched[] = $column . ' = ' . \Sql\Constant::SQL_VALUE . '(' . $value . ')';
         }
-        return $sql .= ' ' . self::SQL_ON_DUPLICATE_KEY_UPDATE . '(' . implode(',', $matched) . ')';
+        return $sql .= ' ' . \Sql\Constant::SQL_ON_DUPLICATE_KEY_UPDATE . '(' . implode(',', $matched) . ')';
     }
 
     /**
@@ -112,7 +108,7 @@ class Upsert implements \Sql\Statement
     {
         return $this->renderMatched(
             $this->renderValues(
-            $this->renderColumns(self::SQL_INSERT . ' ' . $this->target)
+            $this->renderColumns(\Sql\Constant::SQL_INSERT . ' ' . $this->target)
         ));
     }
 }
