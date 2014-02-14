@@ -50,7 +50,7 @@ class Insert implements \Sql\Statement
      */
     public function renderColumns($sql)
     {
-        return $sql .= ' (' . implode(',', array_keys($this->values)) . ')';
+        return $sql .= " (" . implode(",", array_keys($this->values)) . ")";
     }
 
     /**
@@ -61,7 +61,7 @@ class Insert implements \Sql\Statement
      */
     public function renderValues($sql)
     {
-        return $sql .= ' ' . \Sql\Constant::SQL_VALUES . '(' . implode(',', $this->values) . ')';
+        return $sql .= "\n" . \Sql\Constant::SQL_VALUES . " (" . implode(",", $this->values) . ")";
     }
 
     /**

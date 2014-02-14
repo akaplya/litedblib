@@ -71,7 +71,7 @@ class Update implements \Sql\Statement
         foreach ($this->values as $column => $value) {
             $data[] = $column . " = " . $value;
         }
-        return $sql .= ' ' . \Sql\Constant::SQL_SET . " " . implode(",\n", $data);
+        return $sql .= "\n" . \Sql\Constant::SQL_SET . " " . implode(",\n", $data);
     }
 
     /**
@@ -95,7 +95,7 @@ class Update implements \Sql\Statement
     public function __toString()
     {
         return $this->renderWhere(
-                $this->renderSet(\Sql\Constant::SQL_UPDATE . ' ' . $this->target)
+                $this->renderSet(\Sql\Constant::SQL_UPDATE . " " . $this->target)
             );
     }
 }

@@ -149,7 +149,7 @@ class Select implements \Sql\Statement
             $renderColumns[] = $column
                 . (($column == $alias) ? "" : " " . \Sql\Constant::SQL_AS . " " . $alias);
         }
-        return $sql .= "\n\t" . implode(",", $renderColumns);
+        return $sql .= "\n" . implode(",", $renderColumns);
     }
 
     /**

@@ -28,6 +28,11 @@ class Dml
         return new \Sql\Statement\Delete();
     }
 
+    public function upsert()
+    {
+        return new \Sql\Statement\Upsert();
+    }
+
     public function insertSelect()
     {
         return new \Sql\Statement\Select\Insert();

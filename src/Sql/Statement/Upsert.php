@@ -3,17 +3,24 @@
 namespace Sql\Statement;
 
 /**
- * Class Upsert
+ * Class Insert
  * @package Sql\Statement
  */
 class Upsert implements \Sql\Statement
 {
+    /**
+     * @var string
+     */
     protected $target;
 
-    protected $columns;
-
+    /**
+     * @var array
+     */
     protected $values;
 
+    /**
+     * @var array
+     */
     protected $matched;
 
     /**
@@ -25,18 +32,6 @@ class Upsert implements \Sql\Statement
     public function target($table)
     {
         $this->target = $table;
-        return $this;
-    }
-
-    /**
-     * Set columns mapping for insert
-     *
-     * @param array $columns
-     * @return $this
-     */
-    public function columns(array $columns)
-    {
-        $this->columns = $columns;
         return $this;
     }
 
@@ -53,35 +48,13 @@ class Upsert implements \Sql\Statement
     }
 
     /**
-     * @param $columns
+     * @param $matched
      * @return $this
      */
-    public function matched($columns)
+    public function matched($matched)
     {
-        $this->matched = array_merge($this->matched, $columns);
+        $this->matched = $matched;
         return $this;
-    }
-
-    /**
-     * Render insert columns
-     *
-     * @param $sql
-     * @return string
-     */
-    public function renderColumns($sql)
-    {
-        return $sql .= ' (' . implode(',', $this->columns) . ')';
-    }
-
-    /**
-     * Render insert values
-     *
-     * @param $sql
-     * @return string
-     */
-    public function renderValues($sql)
-    {
-        return $sql .= ' ' . \Sql\Constant::SQL_VALUES . '(' . implode(',', $this->values) . ')';
     }
 
     /**
@@ -90,13 +63,35 @@ class Upsert implements \Sql\Statement
      * @param $sql
      * @return string
      */
-    public function renderMatched($sql)
+    protected function renderMatched($sql)
     {
         $matched = array();
-        foreach($matched as $column => $value) {
-            $matched[] = $column . ' = ' . \Sql\Constant::SQL_VALUE . '(' . $value . ')';
+        foreach($this->matched as $column => $value) {
+            $matched[] = $column . " = " . \Sql\Constant::SQL_VALUE . "(" . $value . ")";
         }
-        return $sql .= ' ' . \Sql\Constant::SQL_ON_DUPLICATE_KEY_UPDATE . '(' . implode(',', $matched) . ')';
+        return $sql .= "\n" . \Sql\Constant::SQL_ON_DUPLICATE_KEY_UPDATE . "\n" . implode(",\n", $matched);
+    }
+
+    /**
+     * Render insert columns
+     *
+     * @param $sql
+     * @return string
+     */
+    protected function renderColumns($sql)
+    {
+        return $sql .= " (" . implode(",", array_keys($this->values)) . ")";
+    }
+
+    /**
+     * Render insert values
+     *
+     * @param $sql
+     * @return string
+     */
+    protected function renderValues($sql)
+    {
+        return $sql .= "\n" . \Sql\Constant::SQL_VALUES . " (" . implode(",", $this->values) . ")";
     }
 
     /**
@@ -108,7 +103,7 @@ class Upsert implements \Sql\Statement
     {
         return $this->renderMatched(
             $this->renderValues(
-            $this->renderColumns(\Sql\Constant::SQL_INSERT . ' ' . $this->target)
+            $this->renderColumns(\Sql\Constant::SQL_INSERT . " " . $this->target)
         ));
     }
 }
