@@ -16,11 +16,6 @@ class Insert implements \Sql\Statement
     /**
      * @var array
      */
-    protected $columns;
-
-    /**
-     * @var array
-     */
     protected $values;
 
     /**
@@ -32,18 +27,6 @@ class Insert implements \Sql\Statement
     public function target($table)
     {
         $this->target = $table;
-        return $this;
-    }
-
-    /**
-     * Set columns mapping for insert
-     *
-     * @param array $columns
-     * @return $this
-     */
-    public function columns(array $columns)
-    {
-        $this->columns = $columns;
         return $this;
     }
 
@@ -67,7 +50,7 @@ class Insert implements \Sql\Statement
      */
     public function renderColumns($sql)
     {
-        return $sql .= ' (' . implode(',', $this->columns) . ')';
+        return $sql .= ' (' . implode(',', array_keys($this->values)) . ')';
     }
 
     /**

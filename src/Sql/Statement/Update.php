@@ -48,6 +48,18 @@ class Update implements \Sql\Statement
     }
 
     /**
+     * Add where clause
+     *
+     * @param \Sql\Clause $where
+     * @return $this
+     */
+    public function where(\Sql\Clause $where)
+    {
+        $this->where[] = $where;
+        return $this;
+    }
+
+    /**
      * Render insert values
      *
      * @param $sql
@@ -57,20 +69,22 @@ class Update implements \Sql\Statement
     {
         $data = array();
         foreach ($this->values as $column => $value) {
-            $data = $column . " = " . $value;
+            $data[] = $column . " = " . $value;
         }
         return $sql .= ' ' . \Sql\Constant::SQL_SET . " " . implode(",\n", $data);
     }
 
     /**
-     * Render matched
+     * Render where
      *
      * @param $sql
-     * @return string
+     * @return mixed
      */
-    protected function renderWhere($sql)
+    public function renderWhere($sql)
     {
-
+        $where = new \Sql\Clause\ClauseAnd($this->where);
+        $sql .= "\n" . \Sql\Constant::SQL_WHERE . " " . $where;
+        return $sql;
     }
 
     /**
@@ -81,7 +95,7 @@ class Update implements \Sql\Statement
     public function __toString()
     {
         return $this->renderWhere(
-                $this->renderSet(\Sql\Constant::SQL_INSERT . ' ' . $this->target)
+                $this->renderSet(\Sql\Constant::SQL_UPDATE . ' ' . $this->target)
             );
     }
 }
