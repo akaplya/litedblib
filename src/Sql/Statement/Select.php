@@ -44,6 +44,19 @@ class Select implements \Sql\Statement
     protected $order;
 
     /**
+     * @var \Db\Quote
+     */
+    protected $quote;
+
+    /**
+     * @param \Db\Quote $quote
+     */
+    public function __construct(\Db\Quote $quote)
+    {
+        $this->quote = $quote;
+    }
+
+    /**
      * Add where clause
      *
      * @param \Sql\Clause $where
@@ -94,7 +107,7 @@ class Select implements \Sql\Statement
         } else {
             $alias  = $table;
         }
-        $this->from[$alias] = $table;
+        $this->from[$this->quote->quoteIdentifier($alias)] = $this->quote->quoteIdentifier($table);
         return $this;
     }
 
@@ -114,8 +127,8 @@ class Select implements \Sql\Statement
         } else {
             $alias  = $table;
         }
-        $this->join[$alias] = array(
-            'table'     => $table,
+        $this->join[$this->quote->quoteIdentifier($alias)] = array(
+            'table'     => $this->quote->quoteIdentifier($table),
             'condition' => $condition,
             'type'      => $type
         );
@@ -131,7 +144,7 @@ class Select implements \Sql\Statement
     public function columns($columns)
     {
         foreach($columns as $alias => $column) {
-            $this->columns[is_string($alias) ? $alias : $column] = $column;
+            $this->columns[$this->quote->quoteIdentifier(is_string($alias) ? $alias : $column)] = $column;
         }
         return $this;
     }

@@ -24,6 +24,19 @@ class Update implements \Sql\Statement
     protected $where;
 
     /**
+     * @var \Db\Quote
+     */
+    protected $quote;
+
+    /**
+     * @param \Db\Quote $quote
+     */
+    public function __construct(\Db\Quote $quote)
+    {
+        $this->quote = $quote;
+    }
+
+    /**
      * Set target table
      *
      * @param $table
@@ -31,7 +44,7 @@ class Update implements \Sql\Statement
      */
     public function target($table)
     {
-        $this->target = $table;
+        $this->target = $this->quote->quoteIdentifier($table);
         return $this;
     }
 

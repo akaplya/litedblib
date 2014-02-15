@@ -10,12 +10,12 @@ class Dml
 {
     public function select()
     {
-        return new \Sql\Statement\Select();
+        return new \Sql\Statement\Select(new \Db\Mysql\Quote());
     }
 
     public function update()
     {
-        return new \Sql\Statement\Update();
+        return new \Sql\Statement\Update(new \Db\Mysql\Quote());
     }
 
     public function insert()
