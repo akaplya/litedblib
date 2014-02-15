@@ -37,7 +37,7 @@ $upsert->target('test_upsert_table')
 echo "\n\n" . (string)$upsert;
 
 $delete = $dml->delete();
-$delete->target('test_delete_table')
+$delete->target(array('i' => 'test_delete_table'))
     ->where(new \Sql\Clause('i.status = 1'));
 
 echo "\n\n" . (string)$delete;

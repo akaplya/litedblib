@@ -19,6 +19,19 @@ class Delete implements \Sql\Statement
     protected $where;
 
     /**
+     * @var \Db\Quote
+     */
+    protected $quote;
+
+    /**
+     * @param \Db\Quote $quote
+     */
+    public function __construct(\Db\Quote $quote)
+    {
+        $this->quote = $quote;
+    }
+
+    /**
      * Set target table
      *
      * @param $table
@@ -62,6 +75,12 @@ class Delete implements \Sql\Statement
      */
     public function __toString()
     {
-        return $this->renderWhere(\Sql\Constant::SQL_DELETE . " " . $this->target);
+        if (is_array($this->target)) {
+            $target = $this->quote->quoteIdentifier(end($this->target)) . " "
+                . \Sql\Constant::SQL_AS . " " . $this->quote->quoteIdentifier(key($this->target));
+        } else {
+            $target = $this->quote->quoteIdentifier($this->target);
+        }
+        return $this->renderWhere(\Sql\Constant::SQL_DELETE . " " . \Sql\Constant::SQL_FROM . " " .  $target);
     }
 }

@@ -3,7 +3,9 @@
 namespace Sql;
 
 /**
- * Class Clause
+ * This class will be generated automatically :)
+ *
+ * Class Dml
  * @package Sql
  */
 class Dml
@@ -25,7 +27,7 @@ class Dml
 
     public function delete()
     {
-        return new \Sql\Statement\Delete();
+        return new \Sql\Statement\Delete(new \Db\Mysql\Quote());
     }
 
     public function upsert()
