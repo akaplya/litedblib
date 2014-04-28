@@ -3,6 +3,9 @@
 namespace Db\Mysql;
 
 /**
+ * @todo: add normal quoting
+ * @todo: implement exceptions (for Sql\Expression)
+ *
  * Class Quote
  * @package Db\Mysql
  */
@@ -14,7 +17,7 @@ class Quote implements \Db\Quote
      */
     public function quote($value)
     {
-        return $value;
+        return "'" . $value . "'";
     }
 
     /**
@@ -23,7 +26,7 @@ class Quote implements \Db\Quote
      */
     public function quoteIdentifier($identifier)
     {
-        return $identifier;
+        return "`" . $identifier . "`";
     }
 
     /**

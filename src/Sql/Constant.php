@@ -27,6 +27,8 @@ class Constant
     const SQL_AND                       = 'AND';
     const SQL_OR                        = 'OR';
     const SQL_BETWEEN                   = 'BETWEEN';
+    const SQL_LIKE                      = 'LIKE';
+    const SQL_NOT                       = 'NOT';
 
     const SQL_SET                       = 'SET';
     const SQL_VALUES                    = 'VALUES';

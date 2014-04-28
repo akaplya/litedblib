@@ -16,7 +16,7 @@ class Select implements \Sql\Statement
     /**
      * @var array
      */
-    protected $join;
+    protected $join = [];
 
     /**
      * @var array

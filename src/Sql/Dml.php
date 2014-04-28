@@ -54,4 +54,9 @@ class Dml
     {
         return new \Sql\Statement\Select\Delete();
     }
+
+    public function expression($expression)
+    {
+        return new \Sql\Expression($expression, new \Db\Mysql\Quote());
+    }
 }
