@@ -9,4 +9,4 @@ $conn = array(
     'password' => '123123q',
     'port'     => '3306'
 );
-$connection = new \Db\Mysql\Connection($conn, new \Db\Mysql\ResultFactory());
+$connection = new \Db\Mysql\Connection($conn, new \Db\Mysql\ResultFactory(), new \Db\Mysql\StatementFactory());

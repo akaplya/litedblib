@@ -6,7 +6,7 @@ namespace Db;
  * Interface Result
  * @package Db
  */
-interface Result
+interface ResultInterface extends \Iterator
 {
     /**
      * Returns count of selected rows

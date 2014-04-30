@@ -2,9 +2,10 @@
 
 namespace Db\Mysql;
 
+use Sql\Expr;
+
 /**
  * @todo: add normal quoting
- * @todo: implement exceptions (for Sql\Expression)
  *
  * Class Quote
  * @package Db\Mysql
@@ -17,6 +18,9 @@ class Quote implements \Db\Quote
      */
     public function quote($value)
     {
+        if ($value instanceof Expr) {
+            return (string)$value;
+        }
         return "'" . $value . "'";
     }
 
@@ -26,6 +30,9 @@ class Quote implements \Db\Quote
      */
     public function quoteIdentifier($identifier)
     {
+        if ($identifier instanceof Expr) {
+            return (string)$identifier;
+        }
         return "`" . $identifier . "`";
     }
 

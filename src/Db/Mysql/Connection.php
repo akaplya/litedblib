@@ -48,6 +48,8 @@ class Connection implements \Db\Connection
      */
     protected $resultFactory;
 
+    protected $statementFactory;
+
     /**
      * Create new connection instance
      */
@@ -63,10 +65,13 @@ class Connection implements \Db\Connection
      *
      * @param array $arguments
      * @param ResultFactory $resultFactory
+     * @param StatementFactory $statementFactory
      */
     public function __construct(
         array $arguments,
-        \Db\Mysql\ResultFactory $resultFactory
+        \Db\Mysql\ResultFactory $resultFactory,
+        \Db\Mysql\StatementFactory $statementFactory
+
     ){
         $this->host = isset($arguments['host']) ? $arguments['host'] : 'localhost';
         $this->username = isset($arguments['username']) ? $arguments['username'] : null;
@@ -75,7 +80,16 @@ class Connection implements \Db\Connection
         $this->port = isset($arguments['port']) ? $arguments['port'] : null;
         $this->socket = isset($arguments['socket']) ? $arguments['socket'] : null;
         $this->resultFactory = $resultFactory;
+        $this->statementFactory = $statementFactory;
         $this->connect();
+    }
+
+    public function prepare($sql)
+    {
+        if ($sql instanceOf \Sql\SqlInterface) {
+            $sql = (string)$sql;
+        }
+        return $this->statementFactory->create($this->resource->prepare($sql));
     }
 
     /**
@@ -85,12 +99,17 @@ class Connection implements \Db\Connection
      * @return mixed
      * @throws \Exception
      */
-    public function execute($sql)
+    public function query($sql)
     {
         $result = $this->resource->query($sql);
         if(!$result) {
             throw new \Exception('Query failed');
         }
         return $this->resultFactory->create($result);
+    }
+
+    public function lastInsertId()
+    {
+        return mysqli_insert_id($this->resource);
     }
 }

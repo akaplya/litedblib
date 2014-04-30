@@ -6,7 +6,7 @@ namespace Sql\Statement;
  * Class Insert
  * @package Sql\Statement
  */
-class Insert implements \Sql\Statement
+class Insert implements \Sql\SqlInterface
 {
     /**
      * @var string
@@ -61,7 +61,7 @@ class Insert implements \Sql\Statement
      */
     public function renderValues($sql)
     {
-        return $sql .= "\n" . \Sql\Constant::SQL_VALUES . " (" . implode(",", $this->values) . ")";
+        return $sql .= " " . \Sql\Constant::SQL_VALUES . "\n (" . implode(",", $this->values) . ")";
     }
 
     /**
@@ -72,7 +72,7 @@ class Insert implements \Sql\Statement
     public function __toString()
     {
         return $this->renderValues(
-            $this->renderColumns(\Sql\Constant::SQL_INSERT . ' ' . $this->target)
+            $this->renderColumns(\Sql\Constant::SQL_INSERT . ' INTO ' . $this->target)
         );
     }
 }

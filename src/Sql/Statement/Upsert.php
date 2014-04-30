@@ -6,7 +6,7 @@ namespace Sql\Statement;
  * Class Insert
  * @package Sql\Statement
  */
-class Upsert implements \Sql\Statement
+class Upsert implements \Sql\SqlInterface
 {
     /**
      * @var string

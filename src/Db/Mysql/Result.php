@@ -2,11 +2,12 @@
 
 namespace Db\Mysql;
 
+use \Db\ResultInterface;
 /**
  * Class Connection
  * @package Db
  */
-class Result implements \Iterator, \Db\Result
+class Result implements \Iterator, ResultInterface
 {
     /**
      * @var \Mysqli_result

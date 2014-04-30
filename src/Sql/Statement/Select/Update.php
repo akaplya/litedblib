@@ -6,7 +6,7 @@ namespace Sql\Statement\Select;
  * Class Delete
  * @package Sql\Statement\Select
  */
-class Update implements \Sql\Statement
+class Update implements \Sql\SqlInterface
 {
     /**
      * @return string

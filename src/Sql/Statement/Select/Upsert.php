@@ -6,7 +6,7 @@ namespace Sql\Statement\Select;
  * Class Delete
  * @package Sql\Statement\Select
  */
-class Upsert implements \Sql\Statement
+class Upsert implements \Sql\SqlInterface
 {
     /**
      * @return string

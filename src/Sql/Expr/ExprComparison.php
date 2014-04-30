@@ -1,17 +1,18 @@
 <?php
 
-namespace Sql;
+namespace Sql\Expr;
 
 use Sql\Clause;
 use Sql\Clause\ClauseAnd;
 use Sql\Constant;
 use Db\Quote;
+use Sql\Expr;
 /**
- * @todo: split class to Expression\Function and Expression\Comparison
+ * @todo: split class to Expr\ExprFunction and Expr\ExprComparison
  * Class Statement
  * @package Sql
  */
-class Expression
+class ExprComparison extends Expr
 {
     protected $expression;
 

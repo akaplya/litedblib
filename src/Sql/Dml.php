@@ -55,8 +55,13 @@ class Dml
         return new \Sql\Statement\Select\Delete();
     }
 
-    public function expression($expression)
+    public function exprComparison($expression)
     {
-        return new \Sql\Expression($expression, new \Db\Mysql\Quote());
+        return new \Sql\Expr\ExprComparison($expression, new \Db\Mysql\Quote());
+    }
+
+    public function expr($expression)
+    {
+        return new \Sql\Expr($expression);
     }
 }

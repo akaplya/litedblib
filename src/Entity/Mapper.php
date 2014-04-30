@@ -2,10 +2,12 @@
 
 namespace Entity;
 
-use Entity\Object;
+use Entity\ObjectInterface;
 use Sql\Dml;
 use Sql\Clause;
-use Entity\Factory;
+use Entity\FactoryInterface;
+use Db\Connection;
+
 /**
  * Class Mapper
  * @package Entity
@@ -20,43 +22,127 @@ class Mapper
 
     protected $dml;
 
+    protected $prepared;
+
+    protected $connection;
+
     public function __construct(
+
         Dml $dml,
+        Connection $connection,
         $entityIdentifier,
         $entityTable,
-        Factory $entityFactory
+        FactoryInterface $entityFactory
     ) {
         $this->dml = $dml;
+        $this->connection = $connection;
         $this->entityIdentifier = $entityIdentifier;
         $this->entityTable = $entityTable;
         $this->entityFactory = $entityFactory;
     }
 
-    public function create(Object $object)
+    /**
+     * @param ObjectInterface $object
+     */
+    public function create(ObjectInterface $object)
     {
-        return $this->dml->insert()->target($this->entityTable)->values($object->toArray());
+        if (empty($this->prepared[__FUNCTION__])) {
+            $params = [];
+            foreach(array_keys($this->entityFactory->getMetadata()) as $column) {
+                $params[$column] = '?';
+            }
+            $this->prepared[__FUNCTION__] = $this->connection->prepare(
+                (string)$this->dml
+                    ->insert()
+                    ->target($this->entityTable)
+                    ->values($params)
+            );
+        }
+        /** @var \Db\StatementInterface $statement */
+        $statement = $this->prepared[__FUNCTION__];
+        $statement->bind($object->toArray());
+        $statement->execute();
+        $object->setIdentifier($this->connection->lastInsertId());
     }
 
-    public function read(Object $object)
+    /**
+     * @param string|int $identifier
+     * @return \Entity\ObjectInterface
+     */
+    public function read($identifier)
     {
-        return $this->dml->select()
-            ->columns(array_keys($object->toArray()))
-            ->from($this->entityTable)
-            ->where($this->dml->expression($this->entityIdentifier)->equal($object->getIdentifier()));
-
+        if (empty($this->prepared[__FUNCTION__])) {
+            $this->prepared[__FUNCTION__] = $this->connection->prepare(
+                $this->dml->select()
+                    ->columns(array_keys($this->entityFactory->getMetadata()))
+                    ->from($this->entityTable)
+                    ->where($this->dml->exprComparison($this->entityIdentifier)->equal($this->dml->expr('?'))));
+        }
+        /** @var \Db\StatementInterface $statement */
+        $statement = $this->prepared[__FUNCTION__];
+        $statement->bind([$identifier]);
+        return $this->entityFactory->create($statement->result()->current());
     }
 
-    public function update(Object $object)
+    /**
+     * @param $identifier
+     * @return bool
+     */
+    public function exists($identifier)
     {
-        return $this->dml->update()->target($this->entityTable)
-            ->set($object->toArray())
-            ->where($this->dml->expression($this->entityIdentifier)->equal($object->getIdentifier()));
-
+        if (empty($this->prepared[__FUNCTION__])) {
+            $this->prepared[__FUNCTION__] = $this->connection->prepare(
+                $this->dml->select()
+                    ->columns([$this->dml->expr('1')])
+                    ->from($this->entityTable)
+                    ->where($this->dml->exprComparison($this->entityIdentifier)->equal($this->dml->expr('?'))));
+        }
+        /** @var \Db\StatementInterface $statement */
+        $statement = $this->prepared[__FUNCTION__];
+        $statement->bind([$identifier]);
+        return (bool)$statement->result()->current();
     }
 
-    public function delete(Object $object)
+    /**
+     * @param ObjectInterface $object
+     */
+    public function update(ObjectInterface $object)
     {
-        return $this->dml->delete()->target($this->entityTable)
-            ->where($this->dml->expression($this->entityIdentifier)->equal($object->getIdentifier()));
+        if (empty($this->prepared[__FUNCTION__])) {
+            $params = [];
+            foreach(array_keys($this->entityFactory->getMetadata()) as $column) {
+                $params[$column] = '?';
+            }
+            unset($params[$this->entityIdentifier]);
+            $this->prepared[__FUNCTION__] = $this->connection->prepare(
+                $this->dml->update()->target($this->entityTable)
+                    ->set($params)
+                    ->where($this->dml->exprComparison($this->entityIdentifier)->equal($this->dml->expr('?')))
+            );
+        }
+        /** @var \Db\StatementInterface $statement */
+        $statement = $this->prepared[__FUNCTION__];
+        $bind = $object->toArray();
+        unset($bind[$this->entityIdentifier]);
+        $bind[] = $object->getIdentifier();
+        $statement->bind($bind);
+        return $statement->execute();
+    }
+
+    /**
+     * @param ObjectInterface $object
+     */
+    public function delete(ObjectInterface $object)
+    {
+        if (empty($this->prepared[__FUNCTION__])) {
+            $this->prepared[__FUNCTION__] = $this->connection->prepare(
+                $this->dml->delete()->target($this->entityTable)
+                    ->where($this->dml->exprComparison($this->entityIdentifier)->equal($this->dml->expr('?')))
+            );
+        }
+        /** @var \Db\StatementInterface $statement */
+        $statement = $this->prepared[__FUNCTION__];
+        $statement->bind([$object->getIdentifier()]);
+        return $statement->execute();
     }
 }

@@ -6,7 +6,7 @@ namespace Sql\Statement\Select;
  * Class Insert
  * @package Sql\Statement
  */
-class Insert implements \Sql\Statement
+class Insert implements \Sql\SqlInterface
 {
     /**
      * @var string

@@ -6,7 +6,7 @@ namespace Sql\Statement;
  * Class Delete
  * @package Sql\Statement
  */
-class Select implements \Sql\Statement
+class Select implements \Sql\SqlInterface
 {
     /**
      * @var array
@@ -159,8 +159,8 @@ class Select implements \Sql\Statement
     {
         $renderColumns = array();
         foreach ($this->columns as $alias => $column) {
-            $renderColumns[] = $column
-                . (($column == $alias) ? "" : " " . \Sql\Constant::SQL_AS . " " . $alias);
+            $renderColumns[] = (string)$column
+                . (((string)$column == $alias) ? "" : " " . \Sql\Constant::SQL_AS . " " . $alias);
         }
         return $sql .= "\n" . implode(",", $renderColumns);
     }

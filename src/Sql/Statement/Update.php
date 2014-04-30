@@ -6,7 +6,7 @@ namespace Sql\Statement;
  * Class Update
  * @package Sql\Statement
  */
-class Update implements \Sql\Statement
+class Update implements \Sql\SqlInterface
 {
     /**
      * @var string

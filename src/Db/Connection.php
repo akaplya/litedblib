@@ -15,5 +15,12 @@ interface Connection
      * @return mixed
      * @throws \Exception
      */
-    public function execute($sql);
+    public function query($sql);
+
+    /**
+     * @param $sql
+     * @return mixed
+     */
+    public function prepare($sql);
+    public function lastInsertId();
 }

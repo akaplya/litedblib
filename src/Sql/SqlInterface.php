@@ -6,7 +6,7 @@ namespace Sql;
  * Interface Statement
  * @package Sql
  */
-interface Statement
+interface SqlInterface
 {
     public function __toString();
 }

@@ -2,11 +2,13 @@
 
 namespace Sql\Statement;
 
+use Sql\SqlInterface;
+
 /**
  * Class Delete
  * @package Sql\Statement
  */
-class Delete implements \Sql\Statement
+class Delete implements SqlInterface
 {
     /**
      * @var string
