@@ -12,25 +12,26 @@ $productFactory = new ProductFactory();
 $productMapper = new Mapper(new Dml(), $connection, $productFactory);
 $productRepository = new Repository($productMapper);
 
-$entity = $productRepository->loadEntity('not-existing-entity');
+$uow = new \Entity\UnitOfWork(
+    new \Entity\Config(), ['products' => $productRepository]
+);
 
-var_dump($entity);
-
-//
-//$time = microtime(true);
-//for ($i = 1; $i <= 100000; $i++) {
-//    $raw = $productFactory->create(['sku' => 'sku#' . rand(1, 500)], false);
-//    $raw->setName('name#' . rand(1, 500));
-//
-//    if ($raw->hasChanges()) {
-//        if ($productMapper->exists($raw->getIdentifier())) {
-//            $productMapper->update($raw);
-//        } else {
-//            $productMapper->create($raw);
-//        }
-//    }
-////    $productMapper->create($init);
-////    $product = $productMapper->read($init->getIdentity());
-//}
-//
-//echo 'Processed ' . ($i - 1) . ' items for ' . (microtime(true) - $time) . ' sec.';
+$repository = $uow->getRepository('products');
+/** @var \Demo\ProductWrapper $product */
+$product = $repository->loadEntity(uniqid('####-this-strange-code-####-with-uuid', true));
+$product->setName('ololo-strange-name');
+var_dump($product);
+$uow->flush();
+var_dump($product);
+$product->setName('same-name-will-not-save-more-then-once');
+var_dump($product);
+$uow->flush();
+var_dump($product);
+$product->setName('same-name-will-not-save-more-then-once');
+var_dump($product);
+$uow->flush();
+var_dump($product);
+$product->setName('it-is-time-to-change-product-name');
+var_dump($product);
+$uow->flush();
+var_dump($product);

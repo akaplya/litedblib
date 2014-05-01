@@ -50,9 +50,9 @@ class Mapper
     }
 
     /**
-     * @param ObjectInterface $object
+     * @param WrapperInterface $object
      */
-    public function create(ObjectInterface $object)
+    public function create(WrapperInterface $object)
     {
         if (empty($this->prepared[__FUNCTION__])) {
             $params = [];
@@ -72,6 +72,7 @@ class Mapper
         $statement->execute();
         if ($this->entityFactory->hasAutoIncrement()) {
             $object->setIdentity($this->connection->lastInsertId());
+            $object->flush();
         }
     }
 
@@ -117,9 +118,9 @@ class Mapper
     }
 
     /**
-     * @param ObjectInterface $object
+     * @param WrapperInterface $object
      */
-    public function update(ObjectInterface $object)
+    public function update(WrapperInterface $object)
     {
         if (empty($this->prepared[__FUNCTION__])) {
             $params = [];
@@ -148,13 +149,14 @@ class Mapper
         }
         $bind[] = $object->getIdentifier();
         $statement->bind($bind);
-        return $statement->execute();
+        $statement->execute();
+        $object->flush();
     }
 
     /**
-     * @param ObjectInterface $object
+     * @param WrapperInterface $object
      */
-    public function delete(ObjectInterface $object)
+    public function delete(WrapperInterface $object)
     {
         if (empty($this->prepared[__FUNCTION__])) {
             $this->prepared[__FUNCTION__] = $this->connection->prepare(
@@ -167,6 +169,7 @@ class Mapper
         /** @var \Db\StatementInterface $statement */
         $statement = $this->prepared[__FUNCTION__];
         $statement->bind([$object->getIdentifier()]);
+        $object = null;
         return $statement->execute();
     }
 }

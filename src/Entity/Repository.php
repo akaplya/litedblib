@@ -49,8 +49,19 @@ class Repository
         return $this;
     }
 
+    /**
+     * @return array
+     */
     public function toArray()
     {
         return $this->entities;
+    }
+
+    /**
+     * @return Mapper
+     */
+    public function getMapper()
+    {
+        return $this->entityMapper;
     }
 }

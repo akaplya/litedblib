@@ -3,9 +3,9 @@
 namespace Demo;
 
 use Demo\Product;
-use Entity\ObjectInterface;
+use Entity\WrapperInterface;
 
-class ProductWrapper implements ObjectInterface
+class ProductWrapper implements WrapperInterface
 {
     /**
      * @var bool
@@ -52,7 +52,7 @@ class ProductWrapper implements ObjectInterface
     public function setProductId($productId)
     {
         if ($productId !== $this->product->getProductId()) {
-            $this->product = $productId;
+            $this->productId = $productId;
             $this->hasChanges = true;
         }
         return $this;
@@ -159,5 +159,25 @@ class ProductWrapper implements ObjectInterface
     public function hasChanges()
     {
         return $this->hasChanges;
+    }
+
+    /**
+     * flush wrapper data to object
+     */
+    public function flush()
+    {
+        if (!empty($this->productId)) {
+            $this->product->setProductId($this->productId);
+            $this->productId = null;
+        }
+        if (!empty($this->sku)) {
+            $this->product->setSku($this->sku);
+            $this->sku = null;
+        }
+        if (!empty($this->name)) {
+            $this->product->setName($this->name);
+            $this->name = null;
+        }
+        $this->hasChanges = false;
     }
 }
