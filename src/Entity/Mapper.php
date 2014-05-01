@@ -93,7 +93,7 @@ class Mapper
         /** @var \Db\StatementInterface $statement */
         $statement = $this->prepared[__FUNCTION__];
         $statement->bind([$identifier]);
-        return $this->entityFactory->create($statement->result()->current());
+        return $this->entityFactory->create($statement->result()->current(), false);
     }
 
     /**

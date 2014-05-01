@@ -15,13 +15,15 @@ interface FactoryInterface
     const TYPE_DECIMAL = 'decimal';
     const TYPE_TIMESTAMP = 'timestamp';
 
+
     /**
      * Create wrapped entity
      *
      * @param array $arguments
-     * @return ObjectInterface
+     * @param bool $hasChanges
+     * @return mixed
      */
-    public function create($arguments = []);
+    public function create($arguments = [], $hasChanges = true);
 
     /**
      * Return array of metadata
