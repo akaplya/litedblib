@@ -9,8 +9,8 @@ namespace Db\Mysql;
 class StatementFactory
 {
     /**
-     * @param \Mysqli_Result $result
-     * @return mixed
+     * @param \Mysqli_Stmt $statement
+     * @return Statement
      */
     public function create(\Mysqli_Stmt $statement)
     {

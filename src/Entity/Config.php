@@ -2,6 +2,11 @@
 
 namespace Entity;
 
-class Config {
+/**
+ * Class Config
+ * @package Entity
+ */
+class Config
+{
 
 } 

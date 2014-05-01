@@ -19,8 +19,12 @@ interface Connection
 
     /**
      * @param $sql
-     * @return mixed
+     * @return \Db\StatementInterface
      */
     public function prepare($sql);
+
+    /**
+     * @return int
+     */
     public function lastInsertId();
 }

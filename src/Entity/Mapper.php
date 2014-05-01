@@ -40,7 +40,6 @@ class Mapper
      * @param FactoryInterface $entityFactory
      */
     public function __construct(
-
         Dml $dml,
         Connection $connection,
         FactoryInterface $entityFactory

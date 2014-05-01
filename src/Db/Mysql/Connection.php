@@ -48,6 +48,9 @@ class Connection implements \Db\Connection
      */
     protected $resultFactory;
 
+    /**
+     * @var StatementFactory
+     */
     protected $statementFactory;
 
     /**
@@ -84,6 +87,10 @@ class Connection implements \Db\Connection
         $this->connect();
     }
 
+    /**
+     * @param $sql
+     * @return \Db\StatementInterface
+     */
     public function prepare($sql)
     {
         if ($sql instanceOf \Sql\SqlInterface) {
@@ -108,6 +115,11 @@ class Connection implements \Db\Connection
         return $this->resultFactory->create($result);
     }
 
+    /**
+     * Returns last insert id
+     *
+     * @return int|string
+     */
     public function lastInsertId()
     {
         return mysqli_insert_id($this->resource);

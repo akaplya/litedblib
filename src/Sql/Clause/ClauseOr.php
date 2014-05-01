@@ -8,13 +8,12 @@ namespace Sql\Clause;
  */
 class ClauseOr extends \Sql\Clause
 {
-    protected $clause;
 
-    public function __construct($clause)
-    {
-        $this->clause = $clause;
-    }
-
+    /**
+     * Convert clause to string
+     *
+     * @return string
+     */
     public function __toString()
     {
         if (!is_array($this->clause)) {

@@ -15,6 +15,9 @@ interface StatementInterface
      */
     public function result();
 
+    /**
+     * Execute statement
+     */
     public function execute();
 
 }

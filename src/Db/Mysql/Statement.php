@@ -5,11 +5,26 @@ namespace Db\Mysql;
 use Db\StatementInterface;
 use Db\Mysql\ResultFactory;
 
+/**
+ * Class Statement
+ * @package Db\Mysql
+ */
 class Statement implements StatementInterface
 {
+    /**
+     * @var \Mysqli_Stmt
+     */
     protected $statement;
+
+    /**
+     * @var ResultFactory
+     */
     protected $resultFactory;
 
+    /**
+     * @param \Mysqli_Stmt $statement
+     * @param ResultFactory $resultFactory
+     */
     public function __construct(
         \Mysqli_Stmt $statement,
         ResultFactory $resultFactory
@@ -17,10 +32,13 @@ class Statement implements StatementInterface
         $this->statement = $statement;
         $this->resultFactory = $resultFactory;
     }
-    public function prepare($params) {
-        return array_unshift($params,str_repeat('s', count($params)));
-    }
 
+    /**
+     * Prepare params
+     *
+     * @param $params
+     * @return array
+     */
     protected function prepareParams($params)
     {
         $reference = [];
@@ -31,6 +49,12 @@ class Statement implements StatementInterface
         return $reference;
     }
 
+    /**
+     * Bind params
+     *
+     * @param $params
+     * @return mixed
+     */
     public function bind($params)
     {
         return call_user_func_array(
@@ -42,6 +66,11 @@ class Statement implements StatementInterface
 
     }
 
+    /**
+     * Returns result
+     *
+     * @return \Db\ResultInterface
+     */
     public function result()
     {
         $this->execute();
@@ -49,6 +78,10 @@ class Statement implements StatementInterface
         return $this->resultFactory->create($result);
     }
 
+    /**
+     * Execute sql statement
+     * @throws \Exception
+     */
     public function execute()
     {
         if (!$this->statement->execute()) {

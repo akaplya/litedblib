@@ -29,6 +29,7 @@ interface ObjectInterface
      * @return ObjectInterface
      */
     public function setIdentifier($identifier);
+
     /**
      * @return array
      */

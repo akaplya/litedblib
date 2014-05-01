@@ -12,6 +12,13 @@ class ProductFactory implements FactoryInterface
         'name' => 'string'
     ];
 
+    /**
+     * Create product wrapper
+     *
+     * @param array $arguments
+     * @param bool $hasChanges
+     * @return ProductWrapper
+     */
     public function create($arguments = [], $hasChanges = true)
     {
         $product = new Product();
@@ -25,26 +32,51 @@ class ProductFactory implements FactoryInterface
         return $productWrapper;
     }
 
+    /**
+     * Returns metadata
+     *
+     * @return array
+     */
     public function getMetadata()
     {
         return $this->metadata;
     }
 
+    /**
+     * Entity has auto_increment data
+     *
+     * @return bool
+     */
     public function hasAutoIncrement()
     {
         return true;
     }
 
+    /**
+     * Returns identity name
+     *
+     * @return string
+     */
     public function getIdentityName()
     {
         return 'product_id';
     }
 
+    /**
+     * Returns identifier name
+     *
+     * @return string
+     */
     public function getIdentifierName()
     {
         return 'sku';
     }
 
+    /**
+     * Get entity table name
+     *
+     * @return string
+     */
     public function getEntityTableName()
     {
         return 'products';

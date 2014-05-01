@@ -13,6 +13,8 @@ use Sql\Expr;
 class Quote implements \Db\Quote
 {
     /**
+     * Quote value
+     *
      * @param $value
      * @return string
      */
@@ -25,6 +27,8 @@ class Quote implements \Db\Quote
     }
 
     /**
+     * Quote identifier
+     *
      * @param $identifier
      * @return string
      */
@@ -37,6 +41,8 @@ class Quote implements \Db\Quote
     }
 
     /**
+     * Quote value into string
+     *
      * @param $text
      * @param $value
      * @return string

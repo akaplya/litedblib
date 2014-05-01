@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: akaplya
- * Date: 2/5/14
- * Time: 12:52 AM
- */
 
 namespace Db\Mysql;
 
