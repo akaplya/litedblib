@@ -23,13 +23,13 @@ echo "<pre>";
 //
 //    {
 //        return [
-//            'product_id' => $this->getIdentifier(),
+//            'product_id' => $this->getIdentity(),
 //            'sku' => $this->sku,
 //            'name' => $this->name
 //        ];
 //    }
 //
-//    public function getIdentifier()
+//    public function getIdentity()
 //    {
 //        return $this->productId;
 //    }

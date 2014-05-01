@@ -41,18 +41,27 @@ class Product implements \Entity\ObjectInterface
     }
 
 
-    public function getIdentifier()
+    public function getIdentity()
     {
         return $this->getProductId();
     }
 
+    public function setIdentity($identity)
+    {
+        return $this->setProductId($identity);
+    }
+
+    public function getIdentifier()
+    {
+        return $this->getSku();
+    }
+
     public function setIdentifier($identifier)
     {
-        return $this->setProductId($identifier);
+        return $this->setSku($identifier);
     }
 
     public function toArray()
-
     {
         return [
             'product_id' => $this->getProductId(),

@@ -14,30 +14,39 @@ use Db\Connection;
  */
 class Mapper
 {
-    protected $entityTable;
-
-    protected $entityIdentifier;
-
-    protected $entityFactory;
-
+    /**
+     * @var \Sql\Dml
+     */
     protected $dml;
 
-    protected $prepared;
-
+    /**
+     * @var \Db\Connection
+     */
     protected $connection;
 
+    /**
+     * @var \Entity\FactoryInterface
+     */
+    protected $entityFactory;
+
+    /**
+     * @var array
+     */
+    protected $prepared;
+
+    /**
+     * @param Dml $dml
+     * @param Connection $connection
+     * @param FactoryInterface $entityFactory
+     */
     public function __construct(
 
         Dml $dml,
         Connection $connection,
-        $entityIdentifier,
-        $entityTable,
         FactoryInterface $entityFactory
     ) {
         $this->dml = $dml;
         $this->connection = $connection;
-        $this->entityIdentifier = $entityIdentifier;
-        $this->entityTable = $entityTable;
         $this->entityFactory = $entityFactory;
     }
 
@@ -54,7 +63,7 @@ class Mapper
             $this->prepared[__FUNCTION__] = $this->connection->prepare(
                 (string)$this->dml
                     ->insert()
-                    ->target($this->entityTable)
+                    ->target($this->entityFactory->getEntityTableName())
                     ->values($params)
             );
         }
@@ -62,7 +71,9 @@ class Mapper
         $statement = $this->prepared[__FUNCTION__];
         $statement->bind($object->toArray());
         $statement->execute();
-        $object->setIdentifier($this->connection->lastInsertId());
+        if ($this->entityFactory->hasAutoIncrement()) {
+            $object->setIdentity($this->connection->lastInsertId());
+        }
     }
 
     /**
@@ -75,8 +86,10 @@ class Mapper
             $this->prepared[__FUNCTION__] = $this->connection->prepare(
                 $this->dml->select()
                     ->columns(array_keys($this->entityFactory->getMetadata()))
-                    ->from($this->entityTable)
-                    ->where($this->dml->exprComparison($this->entityIdentifier)->equal($this->dml->expr('?'))));
+                    ->from($this->entityFactory->getEntityTableName())
+                    ->where($this->dml->exprComparison(
+                            $this->entityFactory->getIdentifierName()
+                        )->equal($this->dml->expr('?'))));
         }
         /** @var \Db\StatementInterface $statement */
         $statement = $this->prepared[__FUNCTION__];
@@ -85,7 +98,7 @@ class Mapper
     }
 
     /**
-     * @param $identifier
+     * @param string|int $identifier
      * @return bool
      */
     public function exists($identifier)
@@ -94,8 +107,9 @@ class Mapper
             $this->prepared[__FUNCTION__] = $this->connection->prepare(
                 $this->dml->select()
                     ->columns([$this->dml->expr('1')])
-                    ->from($this->entityTable)
-                    ->where($this->dml->exprComparison($this->entityIdentifier)->equal($this->dml->expr('?'))));
+                    ->from($this->entityFactory->getEntityTableName())
+                    ->where($this->dml->exprComparison(
+                        $this->entityFactory->getIdentifierName())->equal($this->dml->expr('?'))));
         }
         /** @var \Db\StatementInterface $statement */
         $statement = $this->prepared[__FUNCTION__];
@@ -113,17 +127,26 @@ class Mapper
             foreach(array_keys($this->entityFactory->getMetadata()) as $column) {
                 $params[$column] = '?';
             }
-            unset($params[$this->entityIdentifier]);
+            unset($params[$this->entityFactory->getIdentityName()]);
+            if ($this->entityFactory->getIdentityName() != $this->entityFactory->getIdentifierName()) {
+                unset($params[$this->entityFactory->getIdentifierName()]);
+            }
+
             $this->prepared[__FUNCTION__] = $this->connection->prepare(
-                $this->dml->update()->target($this->entityTable)
+                $this->dml->update()->target($this->entityFactory->getEntityTableName())
                     ->set($params)
-                    ->where($this->dml->exprComparison($this->entityIdentifier)->equal($this->dml->expr('?')))
+                    ->where($this->dml->exprComparison(
+                        $this->entityFactory->getIdentifierName())->equal($this->dml->expr('?')))
             );
         }
         /** @var \Db\StatementInterface $statement */
         $statement = $this->prepared[__FUNCTION__];
         $bind = $object->toArray();
-        unset($bind[$this->entityIdentifier]);
+
+        unset($bind[$this->entityFactory->getIdentityName()]);
+        if ($this->entityFactory->getIdentityName() != $this->entityFactory->getIdentifierName()) {
+            unset($bind[$this->entityFactory->getIdentifierName()]);
+        }
         $bind[] = $object->getIdentifier();
         $statement->bind($bind);
         return $statement->execute();
@@ -136,8 +159,10 @@ class Mapper
     {
         if (empty($this->prepared[__FUNCTION__])) {
             $this->prepared[__FUNCTION__] = $this->connection->prepare(
-                $this->dml->delete()->target($this->entityTable)
-                    ->where($this->dml->exprComparison($this->entityIdentifier)->equal($this->dml->expr('?')))
+                $this->dml->delete()->target($this->entityFactory->getEntityTableName())
+                    ->where($this->dml->exprComparison(
+                            $this->entityFactory->getIdentifierName()
+                        )->equal($this->dml->expr('?')))
             );
         }
         /** @var \Db\StatementInterface $statement */

@@ -9,6 +9,17 @@ namespace Entity;
 interface ObjectInterface
 {
     /**
+     * @return int
+     */
+    public function getIdentity();
+
+    /**
+     * @param int $identity
+     * @return ObjectInterface
+     */
+    public function setIdentity($identity);
+
+    /**
      * @return int|string
      */
     public function getIdentifier();
@@ -18,7 +29,6 @@ interface ObjectInterface
      * @return ObjectInterface
      */
     public function setIdentifier($identifier);
-
     /**
      * @return array
      */

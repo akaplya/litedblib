@@ -3,7 +3,9 @@
 namespace Entity;
 
 /**
- * Interface Factory
+ * @todo: Split to Entity\FactoryInterface and Entity\MetadataInterface
+ *
+ * Interface FactoryInterface
  */
 interface FactoryInterface
 {
@@ -15,4 +17,13 @@ interface FactoryInterface
     public function create($arguments = []);
 
     public function getMetadata();
+
+    public function hasAutoIncrement();
+
+    public function getIdentityName();
+
+    public function getIdentifierName();
+
+    public function getEntityTableName();
+
 }
