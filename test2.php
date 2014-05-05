@@ -15,9 +15,9 @@ $productFactory = new \Demo\ProductFactory();
 $productMapper = new Mapper(new Dml(), $connection, $productFactory);
 $t = 0;
 $time = microtime(true);
-for ($i = 1; $i <= 10000; $i++) {
-    $raw = $productFactory->create(['sku' => 'sku#' . rand(1, 10000)], false);
-    $raw->setName('name#' . rand(1, 10000));
+for ($i = 1; $i <= 200000; $i++) {
+    $raw = $productFactory->create(['sku' => 'sku#' . rand(1, 100000)], false);
+    $raw->setName('name#' . rand(1, 100000));
 
     if ($raw->hasChanges()) {
         $t++;

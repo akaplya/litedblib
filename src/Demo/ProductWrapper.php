@@ -180,4 +180,12 @@ class ProductWrapper implements WrapperInterface
         }
         $this->hasChanges = false;
     }
+
+    /**
+     * Mark entity as new
+     */
+    public function __wakeup()
+    {
+        $this->hasChanges = true;
+    }
 }
