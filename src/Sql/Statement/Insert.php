@@ -1,12 +1,12 @@
 <?php
 
-namespace Sql\Statement;
+namespace  AKaplya\Orm\Sql\Statement;
 
 /**
  * Class Insert
  * @package Sql\Statement
  */
-class Insert implements \Sql\SqlInterface
+class Insert implements \AKaplya\Orm\Sql\SqlInterface
 {
     /**
      * @var string
@@ -50,7 +50,7 @@ class Insert implements \Sql\SqlInterface
      */
     public function renderColumns($sql)
     {
-        return $sql .= " (" . implode(",", array_keys($this->values)) . ")";
+        return $sql . " (" . implode(",", array_keys($this->values)) . ")";
     }
 
     /**
@@ -61,7 +61,7 @@ class Insert implements \Sql\SqlInterface
      */
     public function renderValues($sql)
     {
-        return $sql .= " " . \Sql\Constant::SQL_VALUES . "\n (" . implode(",", $this->values) . ")";
+        return $sql . " " . \AKaplya\Orm\Sql\Constant::SQL_VALUES . "\n (" . implode(",", $this->values) . ")";
     }
 
     /**
@@ -72,7 +72,7 @@ class Insert implements \Sql\SqlInterface
     public function __toString()
     {
         return $this->renderValues(
-            $this->renderColumns(\Sql\Constant::SQL_INSERT . ' INTO ' . $this->target)
+            $this->renderColumns(\AKaplya\Orm\Sql\Constant::SQL_INSERT . ' INTO ' . $this->target)
         );
     }
 }

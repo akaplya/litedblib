@@ -1,17 +1,13 @@
 <?php
-use Entity\Object;
-use Entity\Mapper;
-use Entity\Factory;
-use Sql\Dml;
+use AKaplya\Orm\Entity\Object;
+use AKaplya\Orm\Entity\Mapper;
+use AKaplya\Orm\Entity\Factory;
+use AKaplya\Orm\Sql\Dml;
 
 require_once "bootstrap.php";
 echo "<pre>";
 
-
-
-
-
-$productFactory = new \Demo\ProductFactory();
+$productFactory = new AKaplya\Orm\Demo\ProductFactory();
 $productMapper = new Mapper(new Dml(), $connection, $productFactory);
 $t = 0;
 $time = microtime(true);

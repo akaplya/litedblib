@@ -1,12 +1,13 @@
 <?php
 
-namespace Sql\Statement;
+namespace  AKaplya\Orm\Sql\Statement;
 
+use AKaplya\Orm\Sql\Constant;
 /**
  * Class Insert
  * @package Sql\Statement
  */
-class Upsert implements \Sql\SqlInterface
+class Upsert implements \AKaplya\Orm\Sql\SqlInterface
 {
     /**
      * @var string
@@ -67,9 +68,9 @@ class Upsert implements \Sql\SqlInterface
     {
         $matched = array();
         foreach($this->matched as $column => $value) {
-            $matched[] = $column . " = " . \Sql\Constant::SQL_VALUE . "(" . $value . ")";
+            $matched[] = $column . " = " . Constant::SQL_VALUE . "(" . $value . ")";
         }
-        return $sql .= "\n" . \Sql\Constant::SQL_ON_DUPLICATE_KEY_UPDATE . "\n" . implode(",\n", $matched);
+        return $sql .= "\n" . Constant::SQL_ON_DUPLICATE_KEY_UPDATE . "\n" . implode(",\n", $matched);
     }
 
     /**
@@ -91,7 +92,7 @@ class Upsert implements \Sql\SqlInterface
      */
     protected function renderValues($sql)
     {
-        return $sql .= "\n" . \Sql\Constant::SQL_VALUES . " (" . implode(",", $this->values) . ")";
+        return $sql .= "\n" . Constant::SQL_VALUES . " (" . implode(",", $this->values) . ")";
     }
 
     /**
@@ -103,7 +104,7 @@ class Upsert implements \Sql\SqlInterface
     {
         return $this->renderMatched(
             $this->renderValues(
-            $this->renderColumns(\Sql\Constant::SQL_INSERT . " " . $this->target)
+            $this->renderColumns(Constant::SQL_INSERT . " " . $this->target)
         ));
     }
 }

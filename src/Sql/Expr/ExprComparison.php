@@ -1,12 +1,11 @@
 <?php
 
-namespace Sql\Expr;
+namespace  AKaplya\Orm\Sql\Expr;
 
-use Sql\Clause;
-use Sql\Clause\ClauseAnd;
-use Sql\Constant;
-use Db\Quote;
-use Sql\Expr;
+use  AKaplya\Orm\Sql\Clause;
+use  AKaplya\Orm\Sql\Constant;
+use  AKaplya\Orm\Db\Quote;
+use  AKaplya\Orm\Sql\Expr;
 /**
  * Class Statement
  * @package Sql
@@ -27,21 +26,21 @@ class ExprComparison extends Expr
 
     public function equal($value)
     {
-        return new \Sql\Clause(
+        return new Clause(
             $this->quote->quoteInto($this->expression . " = ?", $value)
         );
     }
 
     public function notEqual($value)
     {
-        return new \Sql\Clause(
+        return new Clause(
             $this->quote->quoteInto($this->expression . " != ?",  $value)
         );
     }
 
     public function like($value)
     {
-        return new \Sql\Clause(
+        return new Clause(
             $this->quote->quoteInto(
                 $this->expression . " " . Constant::SQL_LIKE . " ?", $value)
         );
@@ -49,7 +48,7 @@ class ExprComparison extends Expr
 
     public function notLike($value)
     {
-        return new \Sql\Clause(
+        return new Clause(
             $this->quote->quoteInto(
                 $this->expression . " " . Constant::SQL_NOT . " " . Constant::SQL_LIKE . " ?", $value)
         );

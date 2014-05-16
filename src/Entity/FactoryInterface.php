@@ -1,6 +1,6 @@
 <?php
 
-namespace Entity;
+namespace  AKaplya\Orm\Entity;
 
 /**
  * @todo: Split to Entity\FactoryInterface and Entity\MetadataInterface

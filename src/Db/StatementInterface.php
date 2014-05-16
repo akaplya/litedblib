@@ -1,6 +1,6 @@
 <?php
 
-namespace Db;
+namespace  AKaplya\Orm\Db;
 
 /**
  * Interface Result
@@ -11,7 +11,7 @@ interface StatementInterface
     public function bind($params);
 
     /**
-     * @return \Db\ResultInterface
+     * @return \AKaplya\Orm\Db\ResultInterface
      */
     public function result();
 

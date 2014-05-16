@@ -1,8 +1,8 @@
 <?php
 
-namespace Db\Mysql;
+namespace  AKaplya\Orm\Db\Mysql;
 
-use Sql\Expr;
+use  AKaplya\Orm\Sql\Expr;
 
 /**
  * @todo: add normal quoting
@@ -10,7 +10,7 @@ use Sql\Expr;
  * Class Quote
  * @package Db\Mysql
  */
-class Quote implements \Db\Quote
+class Quote implements \AKaplya\Orm\Db\Quote
 {
     /**
      * Quote value

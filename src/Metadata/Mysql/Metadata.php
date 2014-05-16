@@ -1,12 +1,12 @@
 <?php
 
-namespace Metadata\Mysql;
+namespace  AKaplya\Orm\Metadata\Mysql;
 
 /**
  * Class Metadata
  * @package Metadata\Mysql
  */
-class Metadata implements \Metadata\Metadata
+class Metadata implements \AKaplya\Orm\Metadata\Metadata
 {
 
 }

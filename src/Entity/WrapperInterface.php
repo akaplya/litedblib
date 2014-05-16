@@ -1,8 +1,6 @@
 <?php
 
-namespace Entity;
-
-use Entity\ObjectInterface;
+namespace  AKaplya\Orm\Entity;
 
 /**
  * Class WrapperInterface

@@ -1,12 +1,12 @@
 <?php
 
-namespace Sql\Clause;
+namespace  AKaplya\Orm\Sql\Clause;
 
 /**
  * Class ClauseAnd
  * @package Sql\Clause
  */
-class ClauseAnd extends \Sql\Clause
+class ClauseAnd extends \AKaplya\Orm\Sql\Clause
 {
     /**
      * Convert to clause to string
@@ -18,6 +18,6 @@ class ClauseAnd extends \Sql\Clause
         if (!is_array($this->clause)) {
             parent::__toString();
         }
-        return "(" . implode(" " . \Sql\Constant::SQL_AND . " ", $this->clause) . ")";
+        return "(" . implode(" " . \AKaplya\Orm\Sql\Constant::SQL_AND . " ", $this->clause) . ")";
     }
 }

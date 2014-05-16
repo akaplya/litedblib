@@ -1,12 +1,12 @@
 <?php
 
-namespace Db\Mysql;
+namespace  AKaplya\Orm\Db\Mysql;
 
 /**
  * Class Connection
  * @package Db
  */
-class Connection implements \Db\Connection
+class Connection implements \AKaplya\Orm\Db\Connection
 {
     /**
      * @var string
@@ -44,7 +44,7 @@ class Connection implements \Db\Connection
     protected $resource;
 
     /**
-     * @var \Db\Mysql\ResultFactory
+     * @var \AKaplya\Orm\Db\Mysql\ResultFactory
      */
     protected $resultFactory;
 
@@ -72,8 +72,8 @@ class Connection implements \Db\Connection
      */
     public function __construct(
         array $arguments,
-        \Db\Mysql\ResultFactory $resultFactory,
-        \Db\Mysql\StatementFactory $statementFactory
+        \AKaplya\Orm\Db\Mysql\ResultFactory $resultFactory,
+        \AKaplya\Orm\Db\Mysql\StatementFactory $statementFactory
 
     ){
         $this->host = isset($arguments['host']) ? $arguments['host'] : 'localhost';
@@ -89,11 +89,11 @@ class Connection implements \Db\Connection
 
     /**
      * @param $sql
-     * @return \Db\StatementInterface
+     * @return \AKaplya\Orm\Db\StatementInterface
      */
     public function prepare($sql)
     {
-        if ($sql instanceOf \Sql\SqlInterface) {
+        if ($sql instanceOf \AKaplya\Orm\Sql\SqlInterface) {
             $sql = (string)$sql;
         }
         return $this->statementFactory->create($this->resource->prepare($sql));

@@ -1,5 +1,5 @@
 <?php
-
+use AKaplya\Orm\Db;
 require_once "vendor/autoload.php";
 
 $conn = array(
@@ -9,4 +9,4 @@ $conn = array(
     'password' => '123123q',
     'port'     => '3306'
 );
-$connection = new \Db\Mysql\Connection($conn, new \Db\Mysql\ResultFactory(), new \Db\Mysql\StatementFactory());
+$connection = new Db\Mysql\Connection($conn, new Db\Mysql\ResultFactory(), new Db\Mysql\StatementFactory());

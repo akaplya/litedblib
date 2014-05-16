@@ -1,8 +1,8 @@
 <?php
 
-namespace Demo;
+namespace  AKaplya\Orm\Demo;
 
-use Entity\FactoryInterface;
+use  AKaplya\Orm\Entity\FactoryInterface;
 
 class ProductFactory implements FactoryInterface
 {

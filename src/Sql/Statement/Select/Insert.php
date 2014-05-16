@@ -1,12 +1,12 @@
 <?php
 
-namespace Sql\Statement\Select;
+namespace  AKaplya\Orm\Sql\Statement\Select;
 
 /**
  * Class Insert
  * @package Sql\Statement
  */
-class Insert implements \Sql\SqlInterface
+class Insert implements \AKaplya\Orm\Sql\SqlInterface
 {
     /**
      * @var string
@@ -19,7 +19,7 @@ class Insert implements \Sql\SqlInterface
     protected $columns;
 
     /**
-     * @var \Sql\Statement\Select
+     * @var \AKaplya\Orm\Sql\Statement\Select
      */
     protected $source;
 
@@ -50,10 +50,10 @@ class Insert implements \Sql\SqlInterface
     /**
      * Set values to insert
      *
-     * @param \Sql\Statement $source
+     * @param \AKaplya\Orm\Sql\Statement $source
      * @return $this
      */
-    public function source(\Sql\Statement $source)
+    public function source(\AKaplya\Orm\Sql\Statement $source)
     {
         $this->source = $source;
         return $this;
@@ -67,7 +67,7 @@ class Insert implements \Sql\SqlInterface
      */
     public function renderColumns($sql)
     {
-        return $sql .= ' (' . implode(',', $this->columns) . ')';
+        return $sql . ' (' . implode(',', $this->columns) . ')';
     }
 
     /**
@@ -78,7 +78,7 @@ class Insert implements \Sql\SqlInterface
      */
     public function renderSource($sql)
     {
-        return $sql .= ' ' . \Sql\Constant::SQL_VALUES . '(' . (string)$this->source . ')';
+        return $sql . ' ' . \AKaplya\Orm\Sql\Constant::SQL_VALUES . '(' . (string)$this->source . ')';
     }
 
     /**
@@ -89,7 +89,7 @@ class Insert implements \Sql\SqlInterface
     public function __toString()
     {
         return $this->renderValues(
-            $this->renderColumns(\Sql\Constant::SQL_INSERT . ' ' . $this->target)
+            $this->renderColumns(\AKaplya\Orm\Sql\Constant::SQL_INSERT . ' ' . $this->target)
         );
     }
 
@@ -101,6 +101,6 @@ class Insert implements \Sql\SqlInterface
      */
     public function renderValues($sql)
     {
-//        return $sql .= ' ' . \Sql\Constant::SQL_VALUES . '(' . implode(',', $this->source) . ')';
+//        return $sql . ' ' . \AKaplya\Orm\Sql\Constant::SQL_VALUES . '(' . implode(',', $this->source) . ')';
     }
 }

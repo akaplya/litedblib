@@ -1,12 +1,12 @@
 <?php
 
-namespace Sql\Statement;
+namespace  AKaplya\Orm\Sql\Statement;
 
 /**
  * Class Delete
  * @package Sql\Statement
  */
-class Select implements \Sql\SqlInterface
+class Select implements \AKaplya\Orm\Sql\SqlInterface
 {
     /**
      * @var array
@@ -44,14 +44,14 @@ class Select implements \Sql\SqlInterface
     protected $order;
 
     /**
-     * @var \Db\Quote
+     * @var \AKaplya\Orm\Db\Quote
      */
     protected $quote;
 
     /**
-     * @param \Db\Quote $quote
+     * @param \AKaplya\Orm\Db\Quote $quote
      */
-    public function __construct(\Db\Quote $quote)
+    public function __construct(\AKaplya\Orm\Db\Quote $quote)
     {
         $this->quote = $quote;
     }
@@ -59,10 +59,10 @@ class Select implements \Sql\SqlInterface
     /**
      * Add where clause
      *
-     * @param \Sql\Clause $where
+     * @param \AKaplya\Orm\Sql\Clause $where
      * @return $this
      */
-    public function where(\Sql\Clause $where)
+    public function where(\AKaplya\Orm\Sql\Clause $where)
     {
         $this->where[] = $where;
         return $this;
@@ -71,10 +71,10 @@ class Select implements \Sql\SqlInterface
     /**
      * Add having clause
      *
-     * @param \Sql\Clause $having
+     * @param \AKaplya\Orm\Sql\Clause $having
      * @return $this
      */
-    public function having(\Sql\Clause $having)
+    public function having(\AKaplya\Orm\Sql\Clause $having)
     {
         $this->having[] = $having;
         return $this;
@@ -83,10 +83,10 @@ class Select implements \Sql\SqlInterface
     /**
      * Add order by clause
      *
-     * @param \Sql\Clause $order
+     * @param \AKaplya\Orm\Sql\Clause $order
      * @return $this
      */
-    public function order(\Sql\Clause $order)
+    public function order(\AKaplya\Orm\Sql\Clause $order)
     {
         $this->order[] = $order;
         return $this;
@@ -115,11 +115,11 @@ class Select implements \Sql\SqlInterface
      * Add join condition
      *
      * @param $table
-     * @param \Sql\Clause $condition
+     * @param \AKaplya\Orm\Sql\Clause $condition
      * @param string $type
      * @return $this
      */
-    public function join($table, \Sql\Clause $condition, $type = \Sql\Constant::SQL_JOIN_INNER)
+    public function join($table, \AKaplya\Orm\Sql\Clause $condition, $type = \AKaplya\Orm\Sql\Constant::SQL_JOIN_INNER)
     {
         if (is_array($table)) {
             $alias  = key($table);
@@ -160,9 +160,9 @@ class Select implements \Sql\SqlInterface
         $renderColumns = array();
         foreach ($this->columns as $alias => $column) {
             $renderColumns[] = (string)$column
-                . (((string)$column == $alias) ? "" : " " . \Sql\Constant::SQL_AS . " " . $alias);
+                . (((string)$column == $alias) ? "" : " " . \AKaplya\Orm\Sql\Constant::SQL_AS . " " . $alias);
         }
-        return $sql .= "\n" . implode(",", $renderColumns);
+        return $sql . "\n" . implode(",", $renderColumns);
     }
 
     /**
@@ -173,8 +173,8 @@ class Select implements \Sql\SqlInterface
      */
     protected function renderFrom($sql)
     {
-        return $sql .= "\n" . \Sql\Constant::SQL_FROM . " " . end($this->from)
-            . " " . \Sql\Constant::SQL_AS . " " . key($this->from);
+        return $sql . "\n" . \AKaplya\Orm\Sql\Constant::SQL_FROM . " " . end($this->from)
+            . " " . \AKaplya\Orm\Sql\Constant::SQL_AS . " " . key($this->from);
     }
 
     /**
@@ -188,10 +188,10 @@ class Select implements \Sql\SqlInterface
 
         foreach ($this->join as $alias => $join) {
             if (is_array($join['condition'])) {
-                $join['condition'] = implode(" " . \Sql\Constant::SQL_AND . " ", $join['condition']);
+                $join['condition'] = implode(" " . \AKaplya\Orm\Sql\Constant::SQL_AND . " ", $join['condition']);
             }
-            $sql .= "\n" . $join['type'] . " " . $join['table'] . " " . \Sql\Constant::SQL_AS . " " . $alias . " "
-                . \Sql\Constant::SQL_ON . " " . $join['condition'];
+            $sql .= "\n" . $join['type'] . " " . $join['table'] . " " . \AKaplya\Orm\Sql\Constant::SQL_AS . " " . $alias . " "
+                . \AKaplya\Orm\Sql\Constant::SQL_ON . " " . $join['condition'];
         }
         return $sql;
     }
@@ -204,8 +204,8 @@ class Select implements \Sql\SqlInterface
      */
     public function renderWhere($sql)
     {
-        $where = new \Sql\Clause\ClauseAnd($this->where);
-        $sql .= "\n" . \Sql\Constant::SQL_WHERE . " " . $where;
+        $where = new \AKaplya\Orm\Sql\Clause\ClauseAnd($this->where);
+        $sql .= "\n" . \AKaplya\Orm\Sql\Constant::SQL_WHERE . " " . $where;
         return $sql;
     }
 
@@ -219,7 +219,7 @@ class Select implements \Sql\SqlInterface
         return $this->renderWhere(
             $this->renderJoin(
             $this->renderFrom(
-            $this->renderColumns(\Sql\Constant::SQL_SELECT)
+            $this->renderColumns(\AKaplya\Orm\Sql\Constant::SQL_SELECT)
         )));
     }
 }

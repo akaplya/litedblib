@@ -1,8 +1,8 @@
 <?php
 
-namespace Entity;
+namespace  AKaplya\Orm\Entity;
 
-use Entity\UnitOfWork;
+
 
 class Manager
 {

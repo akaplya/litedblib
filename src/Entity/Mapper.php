@@ -1,12 +1,12 @@
 <?php
 
-namespace Entity;
+namespace  AKaplya\Orm\Entity;
 
-use Entity\ObjectInterface;
-use Sql\Dml;
-use Sql\Clause;
-use Entity\FactoryInterface;
-use Db\Connection;
+
+use  AKaplya\Orm\Sql\Dml;
+use  AKaplya\Orm\Sql\Clause;
+
+use  AKaplya\Orm\Db\Connection;
 
 /**
  * Class Mapper
@@ -15,17 +15,17 @@ use Db\Connection;
 class Mapper
 {
     /**
-     * @var \Sql\Dml
+     * @var \AKaplya\Orm\Sql\Dml
      */
     protected $dml;
 
     /**
-     * @var \Db\Connection
+     * @var \AKaplya\Orm\Db\Connection
      */
     protected $connection;
 
     /**
-     * @var \Entity\FactoryInterface
+     * @var \AKaplya\Orm\Entity\FactoryInterface
      */
     protected $entityFactory;
 
@@ -66,7 +66,7 @@ class Mapper
                     ->values($params)
             );
         }
-        /** @var \Db\StatementInterface $statement */
+        /** @var \AKaplya\Orm\Db\StatementInterface $statement */
         $statement = $this->prepared[__FUNCTION__];
         $statement->bind($object->toArray());
         $statement->execute();
@@ -78,7 +78,7 @@ class Mapper
 
     /**
      * @param string|int $identifier
-     * @return \Entity\ObjectInterface
+     * @return \AKaplya\Orm\Entity\ObjectInterface
      */
     public function read($identifier)
     {
@@ -91,7 +91,7 @@ class Mapper
                             $this->entityFactory->getIdentifierName()
                         )->equal($this->dml->expr('?'))));
         }
-        /** @var \Db\StatementInterface $statement */
+        /** @var \AKaplya\Orm\Db\StatementInterface $statement */
         $statement = $this->prepared[__FUNCTION__];
         $statement->bind([$identifier]);
         return $this->entityFactory->create($statement->result()->current(), false);
@@ -111,7 +111,7 @@ class Mapper
                     ->where($this->dml->exprComparison(
                         $this->entityFactory->getIdentifierName())->equal($this->dml->expr('?'))));
         }
-        /** @var \Db\StatementInterface $statement */
+        /** @var \AKaplya\Orm\Db\StatementInterface $statement */
         $statement = $this->prepared[__FUNCTION__];
         $statement->bind([$identifier]);
         return (bool)$statement->result()->current();
@@ -139,7 +139,7 @@ class Mapper
                         $this->entityFactory->getIdentifierName())->equal($this->dml->expr('?')))
             );
         }
-        /** @var \Db\StatementInterface $statement */
+        /** @var \AKaplya\Orm\Db\StatementInterface $statement */
         $statement = $this->prepared[__FUNCTION__];
         $bind = $object->toArray();
 
@@ -166,7 +166,7 @@ class Mapper
                         )->equal($this->dml->expr('?')))
             );
         }
-        /** @var \Db\StatementInterface $statement */
+        /** @var \AKaplya\Orm\Db\StatementInterface $statement */
         $statement = $this->prepared[__FUNCTION__];
         $statement->bind([$object->getIdentifier()]);
         $object = null;

@@ -1,9 +1,8 @@
 <?php
 
-namespace Entity;
+namespace  AKaplya\Orm\Entity;
 
-use Entity\Config;
-use Entity\Repository;
+use  AKaplya\Orm\Entity\Config;
 
 class UnitOfWork
 {
@@ -40,7 +39,7 @@ class UnitOfWork
     {
         $changed = 0;
         foreach($repository->toArray() as $entity) {
-            /**@var \Entity\WrapperInterface $entity */
+            /**@var \AKaplya\Orm\Entity\WrapperInterface $entity */
             if ($entity->hasChanges()) {
                 $changed++;
                 if ($repository->getMapper()->exists($entity->getIdentifier())) {

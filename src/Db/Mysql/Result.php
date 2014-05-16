@@ -1,8 +1,8 @@
 <?php
 
-namespace Db\Mysql;
+namespace  AKaplya\Orm\Db\Mysql;
 
-use \Db\ResultInterface;
+use  AKaplya\Orm\Db\ResultInterface;
 /**
  * Class Connection
  * @package Db

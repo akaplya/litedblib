@@ -1,8 +1,8 @@
 <?php
-use Entity\Mapper;
-use Entity\Repository;
-use Sql\Dml;
-use Demo\ProductFactory;
+use AKaplya\Orm\Entity\Mapper;
+use AKaplya\Orm\Entity\Repository;
+use AKaplya\Orm\Sql\Dml;
+use AKaplya\Orm\Demo\ProductFactory;
 
 require_once "bootstrap.php";
 echo "<pre>";
@@ -12,12 +12,12 @@ $productFactory = new ProductFactory();
 $productMapper = new Mapper(new Dml(), $connection, $productFactory);
 $productRepository = new Repository($productMapper);
 
-$uow = new \Entity\UnitOfWork(
-    new \Entity\Config(), ['products' => $productRepository]
+$uow = new AKaplya\Orm\Entity\UnitOfWork(
+    new AKaplya\Orm\Entity\Config(), ['products' => $productRepository]
 );
 
 $repository = $uow->getRepository('products');
-/** @var \Demo\ProductWrapper $product */
+/** @var AKaplya\Orm\Demo\ProductWrapper $product */
 $product = $repository->loadEntity(uniqid('####-this-strange-code-####-with-uuid', true));
 $product->setName('ololo-strange-name');
 var_dump($product);

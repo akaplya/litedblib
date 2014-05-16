@@ -1,6 +1,6 @@
 <?php
 
-namespace Sql;
+namespace  AKaplya\Orm\Sql;
 
 /**
  * Class Expression

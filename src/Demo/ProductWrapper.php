@@ -1,9 +1,10 @@
 <?php
 
-namespace Demo;
+namespace  AKaplya\Orm\Demo;
 
-use Demo\Product;
-use Entity\WrapperInterface;
+
+use  AKaplya\Orm\Entity\WrapperInterface;
+use  AKaplya\Orm\Entity\ObjectInterface;
 
 class ProductWrapper implements WrapperInterface
 {

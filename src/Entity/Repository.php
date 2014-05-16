@@ -1,10 +1,6 @@
 <?php
 
-namespace Entity;
-
-use Entity\FactoryInterface;
-use Entity\Mapper;
-use Entity\ObjectInterface;
+namespace  AKaplya\Orm\Entity;
 
 class Repository
 {
