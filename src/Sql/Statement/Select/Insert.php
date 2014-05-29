@@ -1,12 +1,12 @@
 <?php
 
-namespace  AKaplya\Orm\Sql\Statement\Select;
+namespace  Sql\Statement\Select;
 
 /**
  * Class Insert
  * @package Sql\Statement
  */
-class Insert implements \AKaplya\Orm\Sql\SqlInterface
+class Insert implements \Sql\SqlInterface
 {
     /**
      * @var string
@@ -19,7 +19,7 @@ class Insert implements \AKaplya\Orm\Sql\SqlInterface
     protected $columns;
 
     /**
-     * @var \AKaplya\Orm\Sql\Statement\Select
+     * @var \Sql\Statement\Select
      */
     protected $source;
 
@@ -50,10 +50,10 @@ class Insert implements \AKaplya\Orm\Sql\SqlInterface
     /**
      * Set values to insert
      *
-     * @param \AKaplya\Orm\Sql\Statement $source
+     * @param \Sql\Statement $source
      * @return $this
      */
-    public function source(\AKaplya\Orm\Sql\Statement $source)
+    public function source(\Sql\Statement $source)
     {
         $this->source = $source;
         return $this;
@@ -78,7 +78,7 @@ class Insert implements \AKaplya\Orm\Sql\SqlInterface
      */
     public function renderSource($sql)
     {
-        return $sql . ' ' . \AKaplya\Orm\Sql\Constant::SQL_VALUES . '(' . (string)$this->source . ')';
+        return $sql . ' ' . \Sql\Constant::SQL_VALUES . '(' . (string)$this->source . ')';
     }
 
     /**
@@ -89,7 +89,7 @@ class Insert implements \AKaplya\Orm\Sql\SqlInterface
     public function __toString()
     {
         return $this->renderValues(
-            $this->renderColumns(\AKaplya\Orm\Sql\Constant::SQL_INSERT . ' ' . $this->target)
+            $this->renderColumns(\Sql\Constant::SQL_INSERT . ' ' . $this->target)
         );
     }
 
@@ -101,6 +101,6 @@ class Insert implements \AKaplya\Orm\Sql\SqlInterface
      */
     public function renderValues($sql)
     {
-//        return $sql . ' ' . \AKaplya\Orm\Sql\Constant::SQL_VALUES . '(' . implode(',', $this->source) . ')';
+//        return $sql . ' ' . \Sql\Constant::SQL_VALUES . '(' . implode(',', $this->source) . ')';
     }
 }

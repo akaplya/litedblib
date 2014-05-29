@@ -1,12 +1,12 @@
 <?php
 
-namespace  AKaplya\Orm\Sql\Statement;
+namespace  Sql\Statement;
 
 /**
  * Class Update
  * @package Sql\Statement
  */
-class Update implements \AKaplya\Orm\Sql\SqlInterface
+class Update implements \Sql\SqlInterface
 {
     /**
      * @var string
@@ -24,14 +24,14 @@ class Update implements \AKaplya\Orm\Sql\SqlInterface
     protected $where;
 
     /**
-     * @var \AKaplya\Orm\Db\Quote
+     * @var \Db\Quote
      */
     protected $quote;
 
     /**
-     * @param \AKaplya\Orm\Db\Quote $quote
+     * @param \Db\Quote $quote
      */
-    public function __construct(\AKaplya\Orm\Db\Quote $quote)
+    public function __construct(\Db\Quote $quote)
     {
         $this->quote = $quote;
     }
@@ -63,10 +63,10 @@ class Update implements \AKaplya\Orm\Sql\SqlInterface
     /**
      * Add where clause
      *
-     * @param \AKaplya\Orm\Sql\Clause $where
+     * @param \Sql\Clause $where
      * @return $this
      */
-    public function where(\AKaplya\Orm\Sql\Clause $where)
+    public function where(\Sql\Clause $where)
     {
         $this->where[] = $where;
         return $this;
@@ -84,7 +84,7 @@ class Update implements \AKaplya\Orm\Sql\SqlInterface
         foreach ($this->values as $column => $value) {
             $data[] = $column . " = " . $value;
         }
-        return $sql . "\n" . \AKaplya\Orm\Sql\Constant::SQL_SET . " " . implode(",\n", $data);
+        return $sql . "\n" . \Sql\Constant::SQL_SET . " " . implode(",\n", $data);
     }
 
     /**
@@ -95,8 +95,8 @@ class Update implements \AKaplya\Orm\Sql\SqlInterface
      */
     public function renderWhere($sql)
     {
-        $where = new \AKaplya\Orm\Sql\Clause\ClauseAnd($this->where);
-        return $sql . "\n" . \AKaplya\Orm\Sql\Constant::SQL_WHERE . " " . $where;
+        $where = new \Sql\Clause\ClauseAnd($this->where);
+        return $sql . "\n" . \Sql\Constant::SQL_WHERE . " " . $where;
     }
 
     /**
@@ -107,7 +107,7 @@ class Update implements \AKaplya\Orm\Sql\SqlInterface
     public function __toString()
     {
         return $this->renderWhere(
-                $this->renderSet(\AKaplya\Orm\Sql\Constant::SQL_UPDATE . " " . $this->target)
+                $this->renderSet(\Sql\Constant::SQL_UPDATE . " " . $this->target)
             );
     }
 }

@@ -1,13 +1,13 @@
 <?php
 
-namespace  AKaplya\Orm\Sql\Statement;
+namespace  Sql\Statement;
 
-use AKaplya\Orm\Sql\Constant;
+use Sql\Constant;
 /**
  * Class Insert
  * @package Sql\Statement
  */
-class Upsert implements \AKaplya\Orm\Sql\SqlInterface
+class Upsert implements \Sql\SqlInterface
 {
     /**
      * @var string

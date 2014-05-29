@@ -1,6 +1,6 @@
 <?php
 
-namespace  AKaplya\Orm\Entity;
+namespace  Entity;
 
 class Repository
 {

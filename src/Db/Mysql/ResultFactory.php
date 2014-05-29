@@ -1,6 +1,6 @@
 <?php
 
-namespace  AKaplya\Orm\Db\Mysql;
+namespace  Db\Mysql;
 
 /**
  * Class ResultFactory
@@ -14,6 +14,6 @@ class ResultFactory
      */
     public function create(\Mysqli_Result $result)
     {
-        return new \AKaplya\Orm\Db\Mysql\Result($result);
+        return new \Db\Mysql\Result($result);
     }
 }

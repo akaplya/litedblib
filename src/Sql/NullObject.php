@@ -1,6 +1,6 @@
 <?php
 
-namespace  AKaplya\Orm\Sql;
+namespace  Sql;
 
 /**
  * Class NullObject

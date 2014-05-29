@@ -1,7 +1,16 @@
 {
-    "autoload": {
-        "psr-4": {
-            "LiteDbLib\\": "src/"
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://packages.zendframework.com/"
         }
+    ],
+    "autoload": {
+        "psr-0": {
+            "": "src/"
+        }
+    },
+    "require": {
+        "zendframework/zend-code": "2.3.*"
     }
 }

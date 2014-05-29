@@ -1,7 +1,7 @@
 <?php
-namespace  AKaplya\Orm\Demo;
+namespace  Demo;
 
-class Product implements \AKaplya\Orm\Entity\ObjectInterface
+class Product implements \Entity\ObjectInterface
 {
     protected $productId;
     protected $sku;

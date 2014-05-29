@@ -1,6 +1,6 @@
 <?php
 
-namespace   AKaplya\AKaplya\Orm\Db\Entity;
+namespace Entity;
 
 /**
  * Class Config

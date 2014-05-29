@@ -1,15 +1,20 @@
 <?php
 
-namespace  Demo;
+namespace  Demo\Catalog\Product;
 
+use Demo\Catalog\Product\Decimal;
+use Demo\Catalog\Product\DecimalWrapper;
 use Entity\FactoryInterface;
 
-class ProductFactory implements FactoryInterface
+class DecimalFactory implements FactoryInterface
 {
     protected $metadata = [
-        'product_id' => 'integer',
-        'sku' => 'string',
-        'name' => 'string'
+        'value_id' => 'integer',
+        'entity_type_id' => 'integer',
+        'attribute_id' => 'integer',
+        'store_id' => 'integer',
+        'entity_id' => 'рinteger',
+        'value' => 'string'
     ];
 
     /**
@@ -17,18 +22,18 @@ class ProductFactory implements FactoryInterface
      *
      * @param array $arguments
      * @param bool $hasChanges
-     * @return ProductWrapper
+     * @return DecimalWrapper
      */
     public function create($arguments = [], $hasChanges = true)
     {
-        $product = new Product();
+        $product = new Decimal();
         foreach($this->metadata as $field => $type) {
             if (isset($arguments[$field])) {
                 $method = 'set' . str_replace(' ', '', ucwords(str_replace('_', ' ', $field)));
                 $product->$method($arguments[$field]);
             }
         }
-        $productWrapper = new ProductWrapper($product, $hasChanges);
+        $productWrapper = new DecimalWrapper($product, $hasChanges);
         return $productWrapper;
     }
 
@@ -59,7 +64,7 @@ class ProductFactory implements FactoryInterface
      */
     public function getIdentityName()
     {
-        return 'product_id';
+        return 'value_id';
     }
 
     /**
@@ -69,7 +74,7 @@ class ProductFactory implements FactoryInterface
      */
     public function getIdentifierName()
     {
-        return 'sku';
+        return 'value_id';
     }
 
     /**
@@ -79,6 +84,6 @@ class ProductFactory implements FactoryInterface
      */
     public function getEntityTableName()
     {
-        return 'products';
+        return 'catalog_product_entity_decimal';
     }
 }

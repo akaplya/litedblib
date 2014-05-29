@@ -1,8 +1,8 @@
 <?php
 
-namespace  AKaplya\Orm\Sql\Statement;
+namespace  Sql\Statement;
 
-use  AKaplya\Orm\Sql\SqlInterface;
+use  Sql\SqlInterface;
 
 /**
  * Class Delete
@@ -21,14 +21,14 @@ class Delete implements SqlInterface
     protected $where;
 
     /**
-     * @var \AKaplya\Orm\Db\Quote
+     * @var \Db\Quote
      */
     protected $quote;
 
     /**
-     * @param \AKaplya\Orm\Db\Quote $quote
+     * @param \Db\Quote $quote
      */
-    public function __construct(\AKaplya\Orm\Db\Quote $quote)
+    public function __construct(\Db\Quote $quote)
     {
         $this->quote = $quote;
     }
@@ -48,10 +48,10 @@ class Delete implements SqlInterface
     /**
      * Add where clause
      *
-     * @param \AKaplya\Orm\Sql\Clause $where
+     * @param \Sql\Clause $where
      * @return $this
      */
-    public function where(\AKaplya\Orm\Sql\Clause $where)
+    public function where(\Sql\Clause $where)
     {
         $this->where[] = $where;
         return $this;
@@ -65,8 +65,8 @@ class Delete implements SqlInterface
      */
     public function renderWhere($sql)
     {
-        $where = new \AKaplya\Orm\Sql\Clause\ClauseAnd($this->where);
-        $sql .= "\n" . \AKaplya\Orm\Sql\Constant::SQL_WHERE . " " . $where;
+        $where = new \Sql\Clause\ClauseAnd($this->where);
+        $sql .= "\n" . \Sql\Constant::SQL_WHERE . " " . $where;
         return $sql;
     }
 
@@ -79,13 +79,13 @@ class Delete implements SqlInterface
     {
         if (is_array($this->target)) {
             $target = $this->quote->quoteIdentifier(end($this->target)) . " "
-                . \AKaplya\Orm\Sql\Constant::SQL_AS . " " . $this->quote->quoteIdentifier(key($this->target));
+                . \Sql\Constant::SQL_AS . " " . $this->quote->quoteIdentifier(key($this->target));
         } else {
             $target = $this->quote->quoteIdentifier($this->target);
         }
         return $this->renderWhere(
-            \AKaplya\Orm\Sql\Constant::SQL_DELETE . " "
-            . \AKaplya\Orm\Sql\Constant::SQL_FROM . " "
+            \Sql\Constant::SQL_DELETE . " "
+            . \Sql\Constant::SQL_FROM . " "
             .  $target
         );
     }

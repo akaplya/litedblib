@@ -1,6 +1,6 @@
 <?php
 
-namespace  AKaplya\Orm\Db;
+namespace  Db;
 
 /**
  * Interface Result

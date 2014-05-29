@@ -1,10 +1,10 @@
 <?php
 
-namespace  AKaplya\Orm\Sql\Expr;
+namespace  Sql\Expr;
 
-use  AKaplya\Orm\Sql\Clause;
-use  AKaplya\Orm\Db\Quote;
-use  AKaplya\Orm\Sql\Expr;
+use  Sql\Clause;
+use  Db\Quote;
+use  Sql\Expr;
 
 /**
  * Class ExprFunction

@@ -1,8 +1,10 @@
 <?php
-use AKaplya\Orm\Entity\Mapper;
-use AKaplya\Orm\Entity\Repository;
-use AKaplya\Orm\Sql\Dml;
-use AKaplya\Orm\Demo\ProductFactory;
+use Entity\Mapper;
+use Entity\Repository;
+use Entity\UnitOfWork;
+use Entity\Config;
+use Sql\Dml;
+use Demo\ProductFactory;
 
 require_once "bootstrap.php";
 echo "<pre>";
@@ -12,8 +14,8 @@ $productFactory = new ProductFactory();
 $productMapper = new Mapper(new Dml(), $connection, $productFactory);
 $productRepository = new Repository($productMapper);
 
-$uow = new AKaplya\Orm\Entity\UnitOfWork(
-    new AKaplya\Orm\Entity\Config(), ['products' => $productRepository]
+$uow = new UnitOfWork(
+    new Config(), ['products' => $productRepository]
 );
 $t = 0;
 $time = microtime(true);

@@ -1,11 +1,11 @@
 <?php
 
-namespace  AKaplya\Orm\Sql\Expr;
+namespace  Sql\Expr;
 
-use  AKaplya\Orm\Sql\Clause;
-use  AKaplya\Orm\Sql\Constant;
-use  AKaplya\Orm\Db\Quote;
-use  AKaplya\Orm\Sql\Expr;
+use  Sql\Clause;
+use  Sql\Constant;
+use  Db\Quote;
+use  Sql\Expr;
 /**
  * Class Statement
  * @package Sql

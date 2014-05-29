@@ -1,8 +1,8 @@
 <?php
-use AKaplya\Orm\Entity\Mapper;
-use AKaplya\Orm\Entity\Repository;
-use AKaplya\Orm\Sql\Dml;
-use AKaplya\Orm\Demo\ProductFactory;
+use Entity\Mapper;
+use Entity\Repository;
+use Sql\Dml;
+use Demo\ProductFactory;
 
 require_once "bootstrap.php";
 echo "<pre>";

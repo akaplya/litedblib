@@ -1,8 +1,8 @@
 <?php
 
-namespace  AKaplya\Orm\Db\Mysql;
+namespace  Db\Mysql;
 
-use  AKaplya\Orm\Db\StatementInterface;
+use  Db\StatementInterface;
 
 /**
  * Class Statement
@@ -68,7 +68,7 @@ class Statement implements StatementInterface
     /**
      * Returns result
      *
-     * @return \AKaplya\Orm\Db\ResultInterface
+     * @return \Db\ResultInterface
      */
     public function result()
     {

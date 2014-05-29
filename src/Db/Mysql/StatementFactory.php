@@ -1,6 +1,6 @@
 <?php
 
-namespace  AKaplya\Orm\Db\Mysql;
+namespace  Db\Mysql;
 
 /**
  * Class StatementFactory
@@ -14,6 +14,6 @@ class StatementFactory
      */
     public function create(\Mysqli_Stmt $statement)
     {
-        return new \AKaplya\Orm\Db\Mysql\Statement($statement, new \AKaplya\Orm\Db\Mysql\ResultFactory());
+        return new \Db\Mysql\Statement($statement, new \Db\Mysql\ResultFactory());
     }
 }

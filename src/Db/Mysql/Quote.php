@@ -1,8 +1,8 @@
 <?php
 
-namespace  AKaplya\Orm\Db\Mysql;
+namespace  Db\Mysql;
 
-use  AKaplya\Orm\Sql\Expr;
+use  Sql\Expr;
 
 /**
  * @todo: add normal quoting
@@ -10,7 +10,7 @@ use  AKaplya\Orm\Sql\Expr;
  * Class Quote
  * @package Db\Mysql
  */
-class Quote implements \AKaplya\Orm\Db\Quote
+class Quote implements \Db\Quote
 {
     /**
      * Quote value
@@ -37,7 +37,12 @@ class Quote implements \AKaplya\Orm\Db\Quote
         if ($identifier instanceof Expr) {
             return (string)$identifier;
         }
-        return "`" . $identifier . "`";
+        $quote = [];
+        $parts = explode('.', $identifier);
+        foreach ($parts as $part) {
+            $quote[] = "`" . $part . "`";
+        }
+        return implode('.', $quote);
     }
 
     /**

@@ -1,12 +1,12 @@
 <?php
 
-namespace  AKaplya\Orm\Db\Mysql;
+namespace  Db\Mysql;
 
 /**
  * Class Connection
  * @package Db
  */
-class Connection implements \AKaplya\Orm\Db\Connection
+class Connection implements \Db\Connection
 {
     /**
      * @var string
@@ -44,7 +44,7 @@ class Connection implements \AKaplya\Orm\Db\Connection
     protected $resource;
 
     /**
-     * @var \AKaplya\Orm\Db\Mysql\ResultFactory
+     * @var \Db\Mysql\ResultFactory
      */
     protected $resultFactory;
 
@@ -72,8 +72,8 @@ class Connection implements \AKaplya\Orm\Db\Connection
      */
     public function __construct(
         array $arguments,
-        \AKaplya\Orm\Db\Mysql\ResultFactory $resultFactory,
-        \AKaplya\Orm\Db\Mysql\StatementFactory $statementFactory
+        \Db\Mysql\ResultFactory $resultFactory,
+        \Db\Mysql\StatementFactory $statementFactory
 
     ){
         $this->host = isset($arguments['host']) ? $arguments['host'] : 'localhost';
@@ -89,11 +89,11 @@ class Connection implements \AKaplya\Orm\Db\Connection
 
     /**
      * @param $sql
-     * @return \AKaplya\Orm\Db\StatementInterface
+     * @return \Db\StatementInterface
      */
     public function prepare($sql)
     {
-        if ($sql instanceOf \AKaplya\Orm\Sql\SqlInterface) {
+        if ($sql instanceOf \Sql\SqlInterface) {
             $sql = (string)$sql;
         }
         return $this->statementFactory->create($this->resource->prepare($sql));
@@ -110,7 +110,7 @@ class Connection implements \AKaplya\Orm\Db\Connection
     {
         $result = $this->resource->query($sql);
         if(!$result) {
-            throw new \Exception('Query failed');
+            throw new \Exception($this->resource->error);
         }
         return $this->resultFactory->create($result);
     }

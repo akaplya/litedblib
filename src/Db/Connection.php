@@ -1,6 +1,6 @@
 <?php
 
-namespace  AKaplya\Orm\Db;
+namespace  Db;
 
 /**
  * Interface Connection
@@ -19,7 +19,7 @@ interface Connection
 
     /**
      * @param $sql
-     * @return \AKaplya\Orm\Db\StatementInterface
+     * @return \Db\StatementInterface
      */
     public function prepare($sql);
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace  AKaplya\Orm\Metadata;
+namespace  Metadata;
 
 /**
  * Interface Metadata

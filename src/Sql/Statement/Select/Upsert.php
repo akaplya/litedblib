@@ -1,12 +1,12 @@
 <?php
 
-namespace  AKaplya\Orm\Sql\Statement\Select;
+namespace  Sql\Statement\Select;
 
 /**
  * Class Delete
  * @package Sql\Statement\Select
  */
-class Upsert implements \AKaplya\Orm\Sql\SqlInterface
+class Upsert implements \Sql\SqlInterface
 {
     /**
      * @return string

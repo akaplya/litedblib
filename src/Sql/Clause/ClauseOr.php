@@ -1,12 +1,12 @@
 <?php
 
-namespace  AKaplya\Orm\Sql\Clause;
+namespace  Sql\Clause;
 
 /**
  * Class ClauseOr
  * @package Sql\Clause
  */
-class ClauseOr extends \AKaplya\Orm\Sql\Clause
+class ClauseOr extends \Sql\Clause
 {
 
     /**
@@ -19,6 +19,6 @@ class ClauseOr extends \AKaplya\Orm\Sql\Clause
         if (!is_array($this->clause)) {
             parent::__toString();
         }
-        return "(" . implode(" " . \AKaplya\Orm\Sql\Constant::SQL_OR . " ", $this->clause) . ")";
+        return "(" . implode(" " . \Sql\Constant::SQL_OR . " ", $this->clause) . ")";
     }
 }

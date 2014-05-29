@@ -1,25 +1,27 @@
 <?php
 
-namespace  AKaplya\Orm\Entity;
+namespace  Entity;
 
-
+use Sql\Dml;
 
 class Manager
 {
     /**
-     * @var UnitOfWork
+     * @var Dml
      */
-    protected $unitOfWork;
+    protected $dml;
+
+    protected $reg;
+
 
     public function __construct(
-        UnitOfWork $unitOfWork
+        Dml $dml
     )
     {
-        $this->unitOfWork = $unitOfWork;
+        $this->dml = $dml;
     }
 
-    public function getRepository($entity)
+    public function getRepository($metadataFactory)
     {
-
     }
 } 
